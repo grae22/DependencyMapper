@@ -1,8 +1,22 @@
-﻿namespace DependencyMapper.Mapping
+﻿using System;
+
+namespace DependencyMapper.Mapping
 {
-  internal class NodeFactory
+  internal class NodeFactory : INodeFactory
   {
+    private const int FirstNodeId = 1;
+
     private int _nextNodeId = 1;
+
+    public NodeFactory(in int nextNodeId = FirstNodeId)
+    {
+      if (nextNodeId < FirstNodeId)
+      {
+        throw new ArgumentException($"{nextNodeId} cannot be smaller than {FirstNodeId}.");
+      }
+
+      _nextNodeId = nextNodeId;
+    }
 
     public INode CreateNode()
     {

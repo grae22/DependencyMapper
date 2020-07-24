@@ -47,5 +47,20 @@ namespace DependencyMapperTests.Mapping
       // Assert.
       Assert.AreEqual("Default", node.Category);
     }
+
+    [Test]
+    public void GivenSeededNextNodeIdFactory_WhenNodeCreated_ThenNewNodeHasSeededNodeId()
+    {
+      // Arrange.
+      const int nodeIdSeed = 123;
+
+      var testObject = new NodeFactory(nodeIdSeed);
+
+      // Act.
+      INode node = testObject.CreateNode();
+
+      // Assert.
+      Assert.AreEqual(nodeIdSeed, node.Id);
+    }
   }
 }
