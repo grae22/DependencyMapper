@@ -15,9 +15,12 @@ namespace DependencyMapper.Mapping
 
     bool IsDependent(
       in INode dependant,
-      in INode dependency);
+      in INode dependency,
+      in bool includeIndirectDependencies = false);
 
-    IEnumerable<INode> GetDependencies(in INode dependant);
+    IEnumerable<INode> GetDependencies(
+      in INode dependant,
+      in bool includeIndirectDependencies = false);
 
     IEnumerable<INode> GetDependants(in INode dependency);
   }

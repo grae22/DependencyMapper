@@ -6,6 +6,8 @@ namespace DependencyMapper.Mapping
 {
   internal class NodeDependencyManager : INodeDependencyManager
   {
+    private const int MaxRecursiveNodeSearchLevel = 1024;
+
     private Dictionary<int, INode> _nodesById = new Dictionary<int, INode>();
     private Dictionary<int, IList<int>> _dependenciesByDependantNodeId = new Dictionary<int, IList<int>>();
     private Dictionary<int, IList<int>> _dependantsByDependencyNodeId = new Dictionary<int, IList<int>>();
@@ -26,6 +28,16 @@ namespace DependencyMapper.Mapping
 
       AddNode(dependant);
       AddNode(dependency);
+
+      bool wouldCauseACyclicDependency = IsDependent(
+        dependency,
+        dependant,
+        true);
+
+      if (wouldCauseACyclicDependency)
+      {
+        throw new NodeMappingException("Mapping would cause a cyclic dependency.");
+      }
 
       if (!_dependenciesByDependantNodeId[dependant.Id].Contains(dependency.Id))
       {
@@ -68,7 +80,8 @@ namespace DependencyMapper.Mapping
 
     public bool IsDependent(
       in INode dependant,
-      in INode dependency)
+      in INode dependency,
+      in bool includeIndirectDependencies = false)
     {
       if (dependant == null)
       {
@@ -85,10 +98,28 @@ namespace DependencyMapper.Mapping
         return false;
       }
 
-      return _dependenciesByDependantNodeId[dependant.Id].Contains(dependency.Id);
+      bool hasDirectDependency = _dependenciesByDependantNodeId[dependant.Id].Contains(dependency.Id);
+
+      if (hasDirectDependency)
+      {
+        return true;
+      }
+
+      if (!includeIndirectDependencies)
+      {
+        return false;
+      }
+
+      IEnumerable<INode> dependencies = GetDependencies(dependant, true);
+
+      int dependencyId = dependency.Id;
+
+      return dependencies.Any(d => d.Id == dependencyId);
     }
 
-    public IEnumerable<INode> GetDependencies(in INode dependant)
+    public IEnumerable<INode> GetDependencies(
+      in INode dependant,
+      in bool includeIndirectDependencies = false)
     {
       if (dependant == null)
       {
@@ -100,12 +131,31 @@ namespace DependencyMapper.Mapping
         return new INode[0];
       }
 
-      return _dependenciesByDependantNodeId[dependant.Id]
-        .Join(
-          _nodesById.Values,
-          nodeId => nodeId,
-          node => node.Id,
-          (nodeId, node) => node);
+      var dependencies = new List<INode>(
+        _dependenciesByDependantNodeId[dependant.Id]
+          .Join(
+            _nodesById.Values,
+            nodeId => nodeId,
+            node => node.Id,
+            (nodeId, node) => node));
+
+      if (!includeIndirectDependencies)
+      {
+        return dependencies;
+      }
+
+      var dependenciesCopy = new List<INode>(dependencies);
+      var recursionLevel = 0;
+
+      foreach (var node in dependenciesCopy)
+      {
+        GetDependenciesRecursive(
+          node,
+          dependencies,
+          recursionLevel);
+      }
+
+      return dependencies;
     }
 
     public IEnumerable<INode> GetDependants(in INode dependency)
@@ -138,6 +188,32 @@ namespace DependencyMapper.Mapping
       _nodesById.Add(node.Id, node);
       _dependenciesByDependantNodeId.Add(node.Id, new List<int>());
       _dependantsByDependencyNodeId.Add(node.Id, new List<int>());
+    }
+
+    private void GetDependenciesRecursive(
+      in INode dependant,
+      in List<INode> dependencies,
+      in int recursionLevel)
+    {
+      if (recursionLevel + 1 > MaxRecursiveNodeSearchLevel)
+      {
+        // TODO: This is currently a silent failure, could be improved.
+        return;
+      }
+
+      IEnumerable<int> currentDependencyIDs = _dependenciesByDependantNodeId[dependant.Id];
+
+      foreach (var id in currentDependencyIDs)
+      {
+        INode dependency = _nodesById[id];
+
+        dependencies.Add(dependency);
+
+        GetDependenciesRecursive(
+          dependency,
+          dependencies,
+          recursionLevel + 1);
+      }
     }
   }
 }
