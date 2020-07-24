@@ -13,7 +13,7 @@ namespace DependencyMapper.Mapping
       in INode dependant,
       in INode dependency);
 
-    bool IsDependent(
+    bool IsDependant(
       in INode dependant,
       in INode dependency,
       in bool includeIndirectDependencies = false);

@@ -29,7 +29,7 @@ namespace DependencyMapper.Mapping
       AddNode(dependant);
       AddNode(dependency);
 
-      bool wouldCauseACyclicDependency = IsDependent(
+      bool wouldCauseACyclicDependency = IsDependant(
         dependency,
         dependant,
         true);
@@ -78,7 +78,7 @@ namespace DependencyMapper.Mapping
       }      
     }
 
-    public bool IsDependent(
+    public bool IsDependant(
       in INode dependant,
       in INode dependency,
       in bool includeIndirectDependencies = false)

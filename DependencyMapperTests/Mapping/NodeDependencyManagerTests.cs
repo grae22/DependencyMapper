@@ -29,7 +29,7 @@ namespace DependencyMapperTests.Mapping
       testObject.AddDependency(nodeA, nodeB);
 
       // Assert.
-      bool result = testObject.IsDependent(nodeA, nodeB);
+      bool result = testObject.IsDependant(nodeA, nodeB);
 
       Assert.IsTrue(result);
     }
@@ -52,7 +52,7 @@ namespace DependencyMapperTests.Mapping
       testObject.RemoveDependency(nodeA, nodeB);
 
       // Assert.
-      bool result = testObject.IsDependent(nodeA, nodeB);
+      bool result = testObject.IsDependant(nodeA, nodeB);
 
       Assert.IsFalse(result);
     }
