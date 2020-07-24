@@ -29,12 +29,12 @@ namespace DependencyMapper.Mapping
       AddNode(dependant);
       AddNode(dependency);
 
-      bool wouldCauseACyclicDependency = IsDependant(
+      bool wouldCauseCyclicDependency = IsDependant(
         dependency,
         dependant,
         true);
 
-      if (wouldCauseACyclicDependency)
+      if (wouldCauseCyclicDependency)
       {
         throw new NodeMappingException("Mapping would cause a cyclic dependency.");
       }

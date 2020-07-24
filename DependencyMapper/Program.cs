@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace DependencyMapper
@@ -17,7 +15,19 @@ namespace DependencyMapper
       Application.SetHighDpiMode(HighDpiMode.SystemAware);
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new Form1());
+      Application.ThreadException += HandleUnhandledException;
+      Application.Run(new MainForm());
+    }
+
+    private static void HandleUnhandledException(
+      object sender,
+      ThreadExceptionEventArgs args)
+    {
+      MessageBox.Show(
+        $"{args?.Exception?.Message}{Environment.NewLine}{Environment.NewLine}{args.Exception.StackTrace}",
+        "Unhandled Exception",
+        MessageBoxButtons.OK,
+        MessageBoxIcon.Error);
     }
   }
 }
