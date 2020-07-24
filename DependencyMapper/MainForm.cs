@@ -167,5 +167,32 @@ namespace DependencyMapper
           nodesList.Items.Add(wrappedNode);
         });
     }
+
+    private void nodeRelationshipsEdit_Click(object sender, EventArgs e)
+    {
+      INode node = GetSelectedNode();
+
+      if (node == null)
+      {
+        MessageBox.Show(
+          "Select a node first.",
+          "Error",
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Error);
+        return;
+      }
+
+      EditNodeRelationshipsDialog.RelationshipMode mode = nodeDependantsBtn.Checked ?
+        EditNodeRelationshipsDialog.RelationshipMode.Dependencies :
+        EditNodeRelationshipsDialog.RelationshipMode.Dependants;
+
+      using (var dlg = new EditNodeRelationshipsDialog(
+        node,
+        _dependencyMapper,
+        mode))
+      {
+        dlg.ShowDialog(this);
+      }
+    }
   }
 }

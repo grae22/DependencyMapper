@@ -81,6 +81,16 @@ namespace DependencyMapper.Mapping
       // TODO
     }
 
+    public bool IsDependant(
+      in INode dependant,
+      in INode dependency)
+    {
+      return _nodeDependencyManager.IsDependant(
+        dependant,
+        dependency,
+        true);
+    }
+
     public string Serialise()
     {
       var model = new PersistanceModel

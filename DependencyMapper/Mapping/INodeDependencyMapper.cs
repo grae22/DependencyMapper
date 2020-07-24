@@ -10,6 +10,10 @@ namespace DependencyMapper.Mapping
 
     void RemoveNode(in int nodeId);
 
+    public bool IsDependant(
+      in INode dependant,
+      in INode dependency);
+
     string Serialise();
   }
 }

@@ -149,6 +149,7 @@
       this.nodeRelationshipsEdit.TabIndex = 1;
       this.nodeRelationshipsEdit.Text = "Edit";
       this.nodeRelationshipsEdit.UseVisualStyleBackColor = true;
+      this.nodeRelationshipsEdit.Click += new System.EventHandler(this.nodeRelationshipsEdit_Click);
       // 
       // nodeDependantsBtn
       // 
@@ -310,6 +311,7 @@
       this.Controls.Add(this.mainLayout);
       this.Controls.Add(this.menuStrip);
       this.Name = "MainForm";
+      this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "Dependency Mapper";
       this.menuStrip.ResumeLayout(false);
       this.menuStrip.PerformLayout();
