@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 using DependencyMapper.Mapping;
@@ -125,6 +126,46 @@ namespace DependencyMapper
       File.WriteAllText(
         _saveFilename,
         _dependencyMapper.Serialise());
+
+      // Force text refresh of item in list (in case name changed).
+      if (nodesList.SelectedItem != null)
+      {
+        nodesList.Items[nodesList.SelectedIndex] = nodesList.Items[nodesList.SelectedIndex];
+      }     
+    }
+
+    private void OnFileLoad(object sender, EventArgs args)
+    {
+      using (var dlg = new OpenFileDialog())
+      {
+        dlg.Filter = "JSON | *.json";
+        dlg.CheckPathExists = true;
+        dlg.CheckFileExists = true;
+        dlg.ShowDialog(this);
+
+        _saveFilename = dlg.FileName;
+      }
+
+      if (string.IsNullOrWhiteSpace(_saveFilename))
+      {
+        return;
+      }
+
+      string serialisedData = File.ReadAllText(_saveFilename);
+
+      _dependencyMapper = NodeDependencyMapper.InstantiateFromSerialisedData(serialisedData);
+      
+      nodesList.Items.Clear();
+
+      _dependencyMapper
+        .Nodes
+        .ToList()
+        .ForEach(n =>
+        {
+          var wrappedNode = new NodeWrapper(n);
+
+          nodesList.Items.Add(wrappedNode);
+        });
     }
   }
 }

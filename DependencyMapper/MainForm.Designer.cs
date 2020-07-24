@@ -30,6 +30,7 @@
     {
       this.menuStrip = new System.Windows.Forms.MenuStrip();
       this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
       this.mainLayout = new System.Windows.Forms.TableLayoutPanel();
       this.mainLeftLayout = new System.Windows.Forms.TableLayoutPanel();
       this.nodeRelationshipsGroup = new System.Windows.Forms.GroupBox();
@@ -69,9 +70,18 @@
       // 
       // toolStripMenuItem1
       // 
+      this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
       this.toolStripMenuItem1.Name = "toolStripMenuItem1";
       this.toolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
       this.toolStripMenuItem1.Text = "&File";
+      // 
+      // toolStripMenuItem2
+      // 
+      this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+      this.toolStripMenuItem2.Size = new System.Drawing.Size(100, 22);
+      this.toolStripMenuItem2.Text = "&Load";
+      this.toolStripMenuItem2.Click += new System.EventHandler(this.OnFileLoad);
       // 
       // mainLayout
       // 
@@ -338,6 +348,7 @@
     private System.Windows.Forms.ListBox nodeRelationshipsList;
     private System.Windows.Forms.GroupBox nodesGroup;
     private System.Windows.Forms.ListBox nodesList;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
   }
 }
 

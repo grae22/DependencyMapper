@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using DependencyMapper.Mapping.Persistance;
 
@@ -16,6 +17,28 @@ namespace DependencyMapper.Mapping
         new NodeDependencyManager());
     }
 
+    public static NodeDependencyMapper InstantiateFromSerialisedData(in string data)
+    {
+      var model = JsonConvert.DeserializeObject<PersistanceModel>(
+        data,
+        new JsonSerializerSettings()
+        {
+          TypeNameHandling = TypeNameHandling.Auto
+        });
+
+      int largestNodeId = model.Nodes.Max(n => n.Id);
+
+      var nodeFactory = new NodeFactory(largestNodeId + 1);
+      var nodeDependencyManager = new NodeDependencyManager();
+
+      return new NodeDependencyMapper(
+        nodeFactory,
+        nodeDependencyManager,
+        model.Nodes);
+    }
+
+    public IEnumerable<INode> Nodes => _nodes;
+
     private readonly INodeFactory _nodeFactory;
     private readonly INodeDependencyManager _nodeDependencyManager;
     private readonly IList<INode> _nodes = new List<INode>();
@@ -26,6 +49,22 @@ namespace DependencyMapper.Mapping
     {
       _nodeFactory = nodeFactory ?? throw new ArgumentNullException(nameof(nodeFactory));
       _nodeDependencyManager = nodeDependencyManager ?? throw new ArgumentNullException(nameof(nodeDependencyManager));
+    }
+
+    private NodeDependencyMapper(
+      in INodeFactory nodeFactory,
+      in INodeDependencyManager nodeDependencyManager,
+      in IList<INode> nodes)
+    {
+      _nodeFactory = nodeFactory ?? throw new ArgumentNullException(nameof(nodeFactory));
+      _nodeDependencyManager = nodeDependencyManager ?? throw new ArgumentNullException(nameof(nodeDependencyManager));
+
+      if (nodes == null)
+      {
+        throw new ArgumentNullException(nameof(nodes));
+      }
+
+      _nodes = new List<INode>(nodes);
     }
 
     public INode CreateNode()
@@ -49,7 +88,12 @@ namespace DependencyMapper.Mapping
         Nodes = new List<INode>(_nodes)
       };
 
-      return JsonConvert.SerializeObject(model);
+      return JsonConvert.SerializeObject(
+        model,
+        new JsonSerializerSettings()
+        {
+          TypeNameHandling = TypeNameHandling.Auto
+        });
     }
   }
 }
