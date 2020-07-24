@@ -151,6 +151,37 @@ namespace DependencyMapperTests.Mapping
     }
 
     [Test]
+    public void GivenNodeWithIndirectDependants_WhenDependantsRetrieved_ThenCorrectNodesAreReturned()
+    {
+      // Arrange.
+      var testObject = new NodeDependencyManager();
+
+      var node0 = Substitute.For<INode>();
+      var node1 = Substitute.For<INode>();
+      var node1_1 = Substitute.For<INode>();
+      var node1_2 = Substitute.For<INode>();
+
+      node0.Id.Returns(1);
+      node1.Id.Returns(2);
+      node1_1.Id.Returns(3);
+      node1_2.Id.Returns(4);
+
+      testObject.AddDependency(node0, node1);
+      testObject.AddDependency(node1, node1_1);
+      testObject.AddDependency(node1, node1_2);
+
+      // Act.
+      IEnumerable<INode> dependants = testObject.GetDependants(node1_2, true);
+
+      // Assert.
+      Assert.That(dependants.Contains(node1));
+      Assert.That(dependants.Contains(node0));
+
+      Assert.That(!dependants.Contains(node1_2));
+      Assert.That(!dependants.Contains(node1_1));
+    }
+
+    [Test]
     public void GivenNodeADependsOnNodeBWhichDependsOnNodeC_WhenNodeCIsMadeDependantOnNodeA_ThenExceptionRaised()
     {
       // Arrange.
