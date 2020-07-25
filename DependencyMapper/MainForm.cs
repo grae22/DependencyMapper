@@ -43,6 +43,8 @@ namespace DependencyMapper
       nodeNameTxtBox.Text = node.Name;
       nodeDescriptionTxtBox.Text = node.Description;
       nodeCategoryDropdown.Text = node.Category;
+
+      PopulateNodeRelationshipsList();
     }
 
     private void nodeSaveBtn_Click(object sender, EventArgs e)
@@ -193,6 +195,43 @@ namespace DependencyMapper
       {
         dlg.ShowDialog(this);
       }
+    }
+
+    private void PopulateNodeRelationshipsList()
+    {
+      nodeRelationshipsList.Items.Clear();
+
+      INode node = GetSelectedNode();
+
+      if (node == null)
+      {
+        return;
+      }
+
+      if (nodeDependenciesBtn.Checked)
+      {
+        _dependencyMapper
+          .GetDependencies(node)
+          .ToList()
+          .ForEach(d => nodeRelationshipsList.Items.Add(new NodeWrapper(d)));
+      }
+      else
+      {
+        _dependencyMapper
+          .GetDependants(node)
+          .ToList()
+          .ForEach(d => nodeRelationshipsList.Items.Add(new NodeWrapper(d)));
+      }
+    }
+
+    private void nodeDependenciesBtn_CheckedChanged(object sender, EventArgs e)
+    {
+      PopulateNodeRelationshipsList();
+    }
+
+    private void nodeDependantsBtn_CheckedChanged(object sender, EventArgs e)
+    {
+      PopulateNodeRelationshipsList();
     }
   }
 }

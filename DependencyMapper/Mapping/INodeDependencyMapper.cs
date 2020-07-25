@@ -14,6 +14,10 @@ namespace DependencyMapper.Mapping
       in INode dependant,
       in INode dependency);
 
+    IEnumerable<INode> GetDependencies(in INode dependant);
+
+    IEnumerable<INode> GetDependants(in INode dependency);
+
     void AddDependency(
       in INode dependant,
       in INode dependency);

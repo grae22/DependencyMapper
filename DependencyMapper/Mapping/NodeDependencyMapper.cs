@@ -34,7 +34,8 @@ namespace DependencyMapper.Mapping
       return new NodeDependencyMapper(
         nodeFactory,
         nodeDependencyManager,
-        model.Nodes);
+        model.Nodes,
+        model.DependenciesByDependantNodeId);
     }
 
     public IEnumerable<INode> Nodes => _nodes;
@@ -54,7 +55,8 @@ namespace DependencyMapper.Mapping
     private NodeDependencyMapper(
       in INodeFactory nodeFactory,
       in INodeDependencyManager nodeDependencyManager,
-      in IList<INode> nodes)
+      in IList<INode> nodes,
+      in IDictionary<int, List<int>> dependencyIDsByDependantNodeId)
     {
       _nodeFactory = nodeFactory ?? throw new ArgumentNullException(nameof(nodeFactory));
       _nodeDependencyManager = nodeDependencyManager ?? throw new ArgumentNullException(nameof(nodeDependencyManager));
@@ -64,7 +66,27 @@ namespace DependencyMapper.Mapping
         throw new ArgumentNullException(nameof(nodes));
       }
 
+      if (dependencyIDsByDependantNodeId == null)
+      {
+        throw new ArgumentNullException(nameof(dependencyIDsByDependantNodeId));
+      }
+
       _nodes = new List<INode>(nodes);
+
+      foreach (var d in dependencyIDsByDependantNodeId)
+      {
+        int dependantId = d.Key;
+        INode dependantNode = _nodes.First(n => n.Id == dependantId);
+
+        IEnumerable<int> dependencyIDs = d.Value;
+
+        foreach (var id in dependencyIDs)
+        {
+          INode dependency = _nodes.First(n => n.Id == id);
+
+          AddDependency(dependantNode, dependency);
+        }
+      }
     }
 
     public INode CreateNode()
@@ -91,6 +113,16 @@ namespace DependencyMapper.Mapping
         true);
     }
 
+    public IEnumerable<INode> GetDependencies(in INode dependant)
+    {
+      return _nodeDependencyManager.GetDependencies(dependant);
+    }
+
+    public IEnumerable<INode> GetDependants(in INode dependency)
+    {
+      return _nodeDependencyManager.GetDependants(dependency);
+    }
+
     public void AddDependency(
       in INode dependant,
       in INode dependency)
@@ -109,8 +141,11 @@ namespace DependencyMapper.Mapping
     {
       var model = new PersistanceModel
       {
-        Nodes = new List<INode>(_nodes)
+        Nodes = new List<INode>(_nodes),
+        DependenciesByDependantNodeId = new Dictionary<int, List<int>>()
       };
+
+      PopulateDependencyIDsByDependantNodeId(model.DependenciesByDependantNodeId);
 
       return JsonConvert.SerializeObject(
         model,
@@ -118,6 +153,24 @@ namespace DependencyMapper.Mapping
         {
           TypeNameHandling = TypeNameHandling.Auto
         });
+    }
+
+    private void PopulateDependencyIDsByDependantNodeId(
+      in IDictionary<int, List<int>> dependencyIDsByDependantNodeId)
+    {
+      foreach (var node in _nodes)
+      {
+        IEnumerable<INode> dependencies = _nodeDependencyManager.GetDependencies(node);
+
+        if (!dependencies.Any())
+        {
+          continue;
+        }
+
+        var dependencyIDs = new List<int>(dependencies.Select(d => d.Id));
+
+        dependencyIDsByDependantNodeId.Add(node.Id, dependencyIDs);
+      }
     }
   }
 }

@@ -160,6 +160,7 @@
       this.nodeDependantsBtn.TabIndex = 0;
       this.nodeDependantsBtn.Text = "Dependants";
       this.nodeDependantsBtn.UseVisualStyleBackColor = true;
+      this.nodeDependantsBtn.CheckedChanged += new System.EventHandler(this.nodeDependantsBtn_CheckedChanged);
       // 
       // nodeDependenciesBtn
       // 
@@ -172,6 +173,7 @@
       this.nodeDependenciesBtn.TabStop = true;
       this.nodeDependenciesBtn.Text = "Dependencies";
       this.nodeDependenciesBtn.UseVisualStyleBackColor = true;
+      this.nodeDependenciesBtn.CheckedChanged += new System.EventHandler(this.nodeDependenciesBtn_CheckedChanged);
       // 
       // nodeBox
       // 
