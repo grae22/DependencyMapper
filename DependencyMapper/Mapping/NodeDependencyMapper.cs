@@ -91,6 +91,20 @@ namespace DependencyMapper.Mapping
         true);
     }
 
+    public void AddDependency(
+      in INode dependant,
+      in INode dependency)
+    {
+      _nodeDependencyManager.AddDependency(dependant, dependency);
+    }
+
+    public void RemoveDependency(
+      in INode dependant,
+      in INode dependency)
+    {
+      _nodeDependencyManager.RemoveDependency(dependant, dependency);
+    }
+
     public string Serialise()
     {
       var model = new PersistanceModel

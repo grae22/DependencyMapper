@@ -182,7 +182,7 @@ namespace DependencyMapper
         return;
       }
 
-      EditNodeRelationshipsDialog.RelationshipMode mode = nodeDependantsBtn.Checked ?
+      EditNodeRelationshipsDialog.RelationshipMode mode = nodeDependenciesBtn.Checked ?
         EditNodeRelationshipsDialog.RelationshipMode.Dependencies :
         EditNodeRelationshipsDialog.RelationshipMode.Dependants;
 

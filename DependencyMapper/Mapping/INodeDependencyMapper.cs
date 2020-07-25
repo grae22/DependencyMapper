@@ -10,7 +10,15 @@ namespace DependencyMapper.Mapping
 
     void RemoveNode(in int nodeId);
 
-    public bool IsDependant(
+    bool IsDependant(
+      in INode dependant,
+      in INode dependency);
+
+    void AddDependency(
+      in INode dependant,
+      in INode dependency);
+
+    void RemoveDependency(
       in INode dependant,
       in INode dependency);
 

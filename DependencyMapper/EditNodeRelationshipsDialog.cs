@@ -44,13 +44,28 @@ namespace DependencyMapper
       {
         RemoveNodesDependingOnSpecifiedNode(_node, nodes);
       }
+      else
+      {
+        RemoveNodesDependentOnSpecifiedNode(_node, nodes);
+      }
 
       nodes
         .ForEach(n =>
         {
+          bool isBoxChecked;
+
+          if (_mode == RelationshipMode.Dependencies)
+          {
+            isBoxChecked = _nodeDependencyMapper.IsDependant(_node, n);
+          }
+          else
+          {
+            isBoxChecked = _nodeDependencyMapper.IsDependant(n, _node);
+          }
+
           var wrappedNode = new NodeWrapper(n);
 
-          nodesList.Items.Add(wrappedNode);
+          nodesList.Items.Add(wrappedNode, isBoxChecked);
         });
     }
 
@@ -76,9 +91,66 @@ namespace DependencyMapper
       }      
     }
 
+    private void RemoveNodesDependentOnSpecifiedNode(
+      in INode node,
+      in IList<INode> nodes)
+    {
+      var nodesToRemove = new List<INode>();
+
+      foreach (var n in nodes)
+      {
+        bool isDependant = _nodeDependencyMapper.IsDependant(node, n);
+
+        if (isDependant)
+        {
+          nodesToRemove.Add(n);
+        }
+      }
+
+      foreach (var n in nodesToRemove)
+      {
+        nodes.Remove(n);
+      }
+    }
+
     private void nodesList_SelectedValueChanged(object sender, EventArgs e)
     {
-      //nodesList.chec
+      if (nodesList.SelectedItem == null)
+      {
+        return;
+      }
+
+      INode node = ((NodeWrapper)nodesList.SelectedItem).Node;
+
+      bool isBoxChecked = nodesList.CheckedItems.Contains(nodesList.SelectedItem);
+
+      if (isBoxChecked)
+      {
+        if (_mode == RelationshipMode.Dependencies)
+        {
+          _nodeDependencyMapper.AddDependency(_node, node);
+        }
+        else
+        {
+          _nodeDependencyMapper.AddDependency(node, _node);
+        }        
+      }
+      else
+      {
+        if (_mode == RelationshipMode.Dependencies)
+        {
+          _nodeDependencyMapper.RemoveDependency(_node, node);
+        }
+        else
+        {
+          _nodeDependencyMapper.RemoveDependency(node, _node);
+        }          
+      }
+    }
+
+    private void closeBtn_Click(object sender, EventArgs e)
+    {
+      Close();
     }
   }
 }
