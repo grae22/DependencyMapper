@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -13,8 +14,18 @@ namespace DependencyMapper
 {
   public partial class MainForm : Form
   {
+    private const string UnknownCategory = "unknown";
+
     private INodeDependencyMapper _dependencyMapper = NodeDependencyMapper.Instantiate();
     private string _saveFilename;
+
+    private Dictionary<string, Color> _diagramNodeColourByCategory = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase)
+    {
+      { "input", Color.FromArgb(100, 180, 255) },
+      { "output", Color.FromArgb(180, 255, 180) },
+      { "subsystem", Color.FromArgb(255, 180, 180) },
+      { UnknownCategory, Color.FromArgb(255, 100, 255) }
+    };
 
     public MainForm()
     {
@@ -263,7 +274,7 @@ namespace DependencyMapper
             n.Name,
             n.Description,
             50,
-            Color.Blue,
+            SelectColourByCategory(n.Category),
             GraphVizDiagram.Node.NodeShape.BOX);
 
           _dependencyMapper
@@ -280,6 +291,16 @@ namespace DependencyMapper
         diagramPicBox.Image = img;
         diagramPicBox.Refresh();
       }
+    }
+
+    private Color SelectColourByCategory(in string category)
+    {
+      if (_diagramNodeColourByCategory.ContainsKey(category))
+      {
+        return _diagramNodeColourByCategory[category];
+      }
+
+      return _diagramNodeColourByCategory[UnknownCategory];
     }
   }
 }
