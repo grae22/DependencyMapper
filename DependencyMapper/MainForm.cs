@@ -224,7 +224,6 @@ namespace DependencyMapper
 
       PopulateNodeListCategoryFilters();
       PopulateNodesList();
-      UpdateDiagram();
     }
 
     private void nodeRelationshipsEdit_Click(object sender, EventArgs e)
@@ -305,24 +304,28 @@ namespace DependencyMapper
         @"F:\Apps\GraphViz\bin\",
         @"GraphViz\DiagramTemplate.gv");
 
-      _dependencyMapper
-        .Nodes
-        .ToList()
-        .ForEach(n =>
-        {
-          graphViz.AddNode(
-            n.Id,
-            n.Name,
-            n.Description,
-            50,
-            SelectColourByCategory(n.Category),
-            GraphVizDiagram.Node.NodeShape.BOX);
+      var nodes = new List<INode>();
 
-          _dependencyMapper
-            .GetDependencies(n)
-            .ToList()
-            .ForEach(d => graphViz.AddLinkToNode(n.Id, d.Id));
-        });
+      foreach (var n in nodesList.Items)
+      {
+        nodes.Add(((NodeWrapper)n).Node);
+      }
+
+      nodes.ForEach(n =>
+      {
+        graphViz.AddNode(
+          n.Id,
+          n.Name,
+          n.Description,
+          50,
+          SelectColourByCategory(n.Category),
+          GraphVizDiagram.Node.NodeShape.BOX);
+
+        _dependencyMapper
+          .GetDependencies(n)
+          .ToList()
+          .ForEach(d => graphViz.AddLinkToNode(n.Id, d.Id));
+      });
 
       graphViz.CreateDiagram("diagram");
 
@@ -400,25 +403,40 @@ namespace DependencyMapper
           StringComparison.OrdinalIgnoreCase);
     }
 
-    private void PopulateNodesList()
+    private void PopulateNodesList(in INode showNodeDependencies = null)
     {
       nodesList.SelectedIndexChanged -= nodesList_SelectedIndexChanged;
 
       nodesList.Items.Clear();
 
-      _dependencyMapper
-        .Nodes
-        .ToList()
-        .ForEach(n =>
+      INode showNodeDependenciesLocal = showNodeDependencies;
+
+      List<INode> nodes;
+
+      if (showNodeDependenciesLocal != null)
+      {
+        nodes = new List<INode>(
+          _dependencyMapper.GetDependencies(showNodeDependencies, true));
+
+        nodes.Add(showNodeDependencies);
+      }
+      else
+      {
+        nodes = new List<INode>(_dependencyMapper.Nodes);
+      }
+
+      nodes.ForEach(n =>
+      {
+        if (IsCategoryVisibleInNodesList(n.Category) &&
+          n.Name.Contains(nodesListNameFilter.Text, StringComparison.OrdinalIgnoreCase))
         {
-          if (IsCategoryVisibleInNodesList(n.Category) &&
-            n.Name.Contains(nodesListNameFilter.Text, StringComparison.OrdinalIgnoreCase))
-          {
-            nodesList.Items.Add(new NodeWrapper(n));
-          }
-        });
+          nodesList.Items.Add(new NodeWrapper(n));
+        }
+      });
 
       nodesList.SelectedIndexChanged += nodesList_SelectedIndexChanged;
+
+      UpdateDiagram();
     }
 
     private void nodesListNameFilter_KeyPress(object sender, KeyPressEventArgs e)
@@ -439,6 +457,37 @@ namespace DependencyMapper
       nodesListNameFilter.Text = string.Empty;
 
       PopulateNodesList();
+    }
+
+    private void nodesListShowSelectedNodeDependencies_Click(object sender, EventArgs e)
+    {
+      if (nodesListShowSelectedNodeDependencies.Text == "RESET")
+      {
+        nodesListShowSelectedNodeDependencies.Text = "Dependencies";
+
+        PopulateNodesList();
+
+        return;
+      }
+
+      INode node = GetSelectedNode();
+
+      if (node == null)
+      {
+        MessageBox.Show(
+          "Select a node first.",
+          "No Node Selected",
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Information);
+        return;
+      }
+
+      nodesListCategoryFilter.Text = NodesListCategoryFilterAll;
+      nodesListNameFilter.Text = string.Empty;
+
+      PopulateNodesList(node);
+
+      nodesListShowSelectedNodeDependencies.Text = "RESET";
     }
   }
 }

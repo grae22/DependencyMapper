@@ -113,9 +113,11 @@ namespace DependencyMapper.Mapping
         true);
     }
 
-    public IEnumerable<INode> GetDependencies(in INode dependant)
+    public IEnumerable<INode> GetDependencies(
+      in INode dependant,
+      in bool includeIndirectDependencies = false)
     {
-      return _nodeDependencyManager.GetDependencies(dependant);
+      return _nodeDependencyManager.GetDependencies(dependant, includeIndirectDependencies);
     }
 
     public IEnumerable<INode> GetDependants(in INode dependency)
