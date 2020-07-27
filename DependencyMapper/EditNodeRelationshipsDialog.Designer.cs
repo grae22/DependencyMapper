@@ -42,6 +42,7 @@
       this.nodesList.Location = new System.Drawing.Point(12, 12);
       this.nodesList.Name = "nodesList";
       this.nodesList.Size = new System.Drawing.Size(580, 400);
+      this.nodesList.Sorted = true;
       this.nodesList.TabIndex = 0;
       this.nodesList.SelectedValueChanged += new System.EventHandler(this.nodesList_SelectedValueChanged);
       // 

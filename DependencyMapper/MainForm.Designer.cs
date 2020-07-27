@@ -53,6 +53,7 @@
       this.nodeNameTxtBox = new System.Windows.Forms.TextBox();
       this.nodesGroup = new System.Windows.Forms.GroupBox();
       this.nodesList = new System.Windows.Forms.ListBox();
+      this.panel1 = new System.Windows.Forms.Panel();
       this.diagramPicBox = new System.Windows.Forms.PictureBox();
       this.menuStrip.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -64,6 +65,7 @@
       this.nodeRelationshipsGroup.SuspendLayout();
       this.nodeBox.SuspendLayout();
       this.nodesGroup.SuspendLayout();
+      this.panel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.diagramPicBox)).BeginInit();
       this.SuspendLayout();
       // 
@@ -120,7 +122,7 @@
       // 
       // splitContainer1.Panel2
       // 
-      this.splitContainer1.Panel2.Controls.Add(this.diagramPicBox);
+      this.splitContainer1.Panel2.Controls.Add(this.panel1);
       this.splitContainer1.Size = new System.Drawing.Size(1157, 713);
       this.splitContainer1.SplitterDistance = 385;
       this.splitContainer1.TabIndex = 1;
@@ -181,7 +183,8 @@
       this.nodeRelationshipsList.Location = new System.Drawing.Point(19, 59);
       this.nodeRelationshipsList.Name = "nodeRelationshipsList";
       this.nodeRelationshipsList.Size = new System.Drawing.Size(189, 439);
-      this.nodeRelationshipsList.TabIndex = 2;
+      this.nodeRelationshipsList.Sorted = true;
+      this.nodeRelationshipsList.TabIndex = 10;
       // 
       // nodeRelationshipsEdit
       // 
@@ -189,7 +192,7 @@
       this.nodeRelationshipsEdit.Location = new System.Drawing.Point(156, 32);
       this.nodeRelationshipsEdit.Name = "nodeRelationshipsEdit";
       this.nodeRelationshipsEdit.Size = new System.Drawing.Size(52, 23);
-      this.nodeRelationshipsEdit.TabIndex = 1;
+      this.nodeRelationshipsEdit.TabIndex = 9;
       this.nodeRelationshipsEdit.Text = "Edit";
       this.nodeRelationshipsEdit.UseVisualStyleBackColor = true;
       this.nodeRelationshipsEdit.Click += new System.EventHandler(this.nodeRelationshipsEdit_Click);
@@ -200,7 +203,7 @@
       this.nodeDependantsBtn.Location = new System.Drawing.Point(124, 34);
       this.nodeDependantsBtn.Name = "nodeDependantsBtn";
       this.nodeDependantsBtn.Size = new System.Drawing.Size(88, 19);
-      this.nodeDependantsBtn.TabIndex = 0;
+      this.nodeDependantsBtn.TabIndex = 8;
       this.nodeDependantsBtn.Text = "Dependants";
       this.nodeDependantsBtn.UseVisualStyleBackColor = true;
       this.nodeDependantsBtn.CheckedChanged += new System.EventHandler(this.nodeDependantsBtn_CheckedChanged);
@@ -212,7 +215,7 @@
       this.nodeDependenciesBtn.Location = new System.Drawing.Point(19, 34);
       this.nodeDependenciesBtn.Name = "nodeDependenciesBtn";
       this.nodeDependenciesBtn.Size = new System.Drawing.Size(99, 19);
-      this.nodeDependenciesBtn.TabIndex = 0;
+      this.nodeDependenciesBtn.TabIndex = 7;
       this.nodeDependenciesBtn.TabStop = true;
       this.nodeDependenciesBtn.Text = "Dependencies";
       this.nodeDependenciesBtn.UseVisualStyleBackColor = true;
@@ -243,7 +246,7 @@
       this.nodeDeleteBtn.Location = new System.Drawing.Point(52, 138);
       this.nodeDeleteBtn.Name = "nodeDeleteBtn";
       this.nodeDeleteBtn.Size = new System.Drawing.Size(75, 23);
-      this.nodeDeleteBtn.TabIndex = 3;
+      this.nodeDeleteBtn.TabIndex = 6;
       this.nodeDeleteBtn.Text = "Delete";
       this.nodeDeleteBtn.UseVisualStyleBackColor = true;
       // 
@@ -253,7 +256,7 @@
       this.newNodeBtn.Location = new System.Drawing.Point(133, 22);
       this.newNodeBtn.Name = "newNodeBtn";
       this.newNodeBtn.Size = new System.Drawing.Size(75, 23);
-      this.newNodeBtn.TabIndex = 3;
+      this.newNodeBtn.TabIndex = 1;
       this.newNodeBtn.Text = "New";
       this.newNodeBtn.UseVisualStyleBackColor = true;
       this.newNodeBtn.Click += new System.EventHandler(this.newNodeBtn_Click);
@@ -264,7 +267,7 @@
       this.nodeSaveBtn.Location = new System.Drawing.Point(133, 138);
       this.nodeSaveBtn.Name = "nodeSaveBtn";
       this.nodeSaveBtn.Size = new System.Drawing.Size(75, 23);
-      this.nodeSaveBtn.TabIndex = 3;
+      this.nodeSaveBtn.TabIndex = 5;
       this.nodeSaveBtn.Text = "Save";
       this.nodeSaveBtn.UseVisualStyleBackColor = true;
       this.nodeSaveBtn.Click += new System.EventHandler(this.nodeSaveBtn_Click);
@@ -277,7 +280,9 @@
       this.nodeCategoryDropdown.Location = new System.Drawing.Point(98, 109);
       this.nodeCategoryDropdown.Name = "nodeCategoryDropdown";
       this.nodeCategoryDropdown.Size = new System.Drawing.Size(110, 23);
-      this.nodeCategoryDropdown.TabIndex = 2;
+      this.nodeCategoryDropdown.Sorted = true;
+      this.nodeCategoryDropdown.TabIndex = 4;
+      this.nodeCategoryDropdown.Enter += new System.EventHandler(this.nodeCategoryDropdown_Enter);
       // 
       // nodeCategoryLabel
       // 
@@ -295,7 +300,7 @@
       this.nodeDescriptionTxtBox.Location = new System.Drawing.Point(98, 80);
       this.nodeDescriptionTxtBox.Name = "nodeDescriptionTxtBox";
       this.nodeDescriptionTxtBox.Size = new System.Drawing.Size(110, 23);
-      this.nodeDescriptionTxtBox.TabIndex = 0;
+      this.nodeDescriptionTxtBox.TabIndex = 3;
       // 
       // nodeDescriptionLabel
       // 
@@ -322,7 +327,8 @@
       this.nodeNameTxtBox.Location = new System.Drawing.Point(98, 51);
       this.nodeNameTxtBox.Name = "nodeNameTxtBox";
       this.nodeNameTxtBox.Size = new System.Drawing.Size(110, 23);
-      this.nodeNameTxtBox.TabIndex = 0;
+      this.nodeNameTxtBox.TabIndex = 2;
+      this.nodeNameTxtBox.Enter += new System.EventHandler(this.nodeNameTxtBox_Enter);
       // 
       // nodesGroup
       // 
@@ -344,16 +350,29 @@
       this.nodesList.Location = new System.Drawing.Point(15, 31);
       this.nodesList.Name = "nodesList";
       this.nodesList.Size = new System.Drawing.Size(113, 656);
+      this.nodesList.Sorted = true;
       this.nodesList.TabIndex = 0;
       this.nodesList.SelectedIndexChanged += new System.EventHandler(this.nodesList_SelectedIndexChanged);
       // 
+      // panel1
+      // 
+      this.panel1.AutoScroll = true;
+      this.panel1.AutoSize = true;
+      this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.panel1.Controls.Add(this.diagramPicBox);
+      this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.panel1.Location = new System.Drawing.Point(0, 0);
+      this.panel1.Name = "panel1";
+      this.panel1.Size = new System.Drawing.Size(768, 713);
+      this.panel1.TabIndex = 0;
+      // 
       // diagramPicBox
       // 
-      this.diagramPicBox.Dock = System.Windows.Forms.DockStyle.Fill;
       this.diagramPicBox.ImageLocation = "";
       this.diagramPicBox.Location = new System.Drawing.Point(0, 0);
       this.diagramPicBox.Name = "diagramPicBox";
       this.diagramPicBox.Size = new System.Drawing.Size(768, 713);
+      this.diagramPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
       this.diagramPicBox.TabIndex = 0;
       this.diagramPicBox.TabStop = false;
       // 
@@ -371,6 +390,7 @@
       this.menuStrip.PerformLayout();
       this.splitContainer1.Panel1.ResumeLayout(false);
       this.splitContainer1.Panel2.ResumeLayout(false);
+      this.splitContainer1.Panel2.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
       this.splitContainer1.ResumeLayout(false);
       this.tableLayoutPanel1.ResumeLayout(false);
@@ -380,6 +400,8 @@
       this.nodeBox.ResumeLayout(false);
       this.nodeBox.PerformLayout();
       this.nodesGroup.ResumeLayout(false);
+      this.panel1.ResumeLayout(false);
+      this.panel1.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.diagramPicBox)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
@@ -413,6 +435,7 @@
     private System.Windows.Forms.ListBox nodesList;
     private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+    private System.Windows.Forms.Panel panel1;
     private System.Windows.Forms.PictureBox diagramPicBox;
   }
 }

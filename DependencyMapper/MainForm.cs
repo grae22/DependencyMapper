@@ -43,6 +43,8 @@ namespace DependencyMapper
       nodesList.Items.Add(uiNode);
 
       nodesList.SelectedItem = uiNode;
+      
+      nodeNameTxtBox.Focus();
     }
 
     private void nodesList_SelectedIndexChanged(object sender, EventArgs e)
@@ -147,7 +149,25 @@ namespace DependencyMapper
       if (nodesList.SelectedItem != null)
       {
         nodesList.Items[nodesList.SelectedIndex] = nodesList.Items[nodesList.SelectedIndex];
-      }     
+      }
+
+      if (nodeCategoryDropdown.Text.Any())
+      {
+        var dropdownCategories = new List<string>();
+
+        foreach (var i in nodeCategoryDropdown.Items)
+        {
+          dropdownCategories.Add(i.ToString());
+        }
+
+        if (!dropdownCategories
+          .Contains(
+            nodeCategoryDropdown.Text,
+            StringComparer.OrdinalIgnoreCase))
+        {
+          nodeCategoryDropdown.Items.Add(nodeCategoryDropdown.Text);
+        }
+      }
     }
 
     private void OnFileLoad(object sender, EventArgs args)
@@ -182,6 +202,16 @@ namespace DependencyMapper
 
           nodesList.Items.Add(wrappedNode);
         });
+
+      nodeCategoryDropdown
+        .Items
+        .AddRange(
+          _dependencyMapper
+            .Nodes
+            .ToList()
+            .Select(n => n.Category)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray());
 
       UpdateDiagram();
     }
@@ -288,8 +318,8 @@ namespace DependencyMapper
       using (Image img = new Bitmap(
         $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\GraphVisTmp\diagram.bmp"))
       {
-        diagramPicBox.Image = img;
-        diagramPicBox.Refresh();
+        // We have to clone to avoid errors when resizing.
+        diagramPicBox.Image = (Image)img.Clone();
       }
     }
 
@@ -301,6 +331,16 @@ namespace DependencyMapper
       }
 
       return _diagramNodeColourByCategory[UnknownCategory];
+    }
+
+    private void nodeNameTxtBox_Enter(object sender, EventArgs e)
+    {
+      nodeNameTxtBox.SelectAll();
+    }
+
+    private void nodeCategoryDropdown_Enter(object sender, EventArgs e)
+    {
+      nodeCategoryDropdown.SelectAll();
     }
   }
 }
