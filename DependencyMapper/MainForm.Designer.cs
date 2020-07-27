@@ -52,6 +52,7 @@
       this.nodeNameLabel = new System.Windows.Forms.Label();
       this.nodeNameTxtBox = new System.Windows.Forms.TextBox();
       this.nodesGroup = new System.Windows.Forms.GroupBox();
+      this.nodesListCategoryFilter = new System.Windows.Forms.ComboBox();
       this.nodesList = new System.Windows.Forms.ListBox();
       this.panel1 = new System.Windows.Forms.Panel();
       this.diagramPicBox = new System.Windows.Forms.PictureBox();
@@ -332,6 +333,7 @@
       // 
       // nodesGroup
       // 
+      this.nodesGroup.Controls.Add(this.nodesListCategoryFilter);
       this.nodesGroup.Controls.Add(this.nodesList);
       this.nodesGroup.Dock = System.Windows.Forms.DockStyle.Fill;
       this.nodesGroup.Location = new System.Drawing.Point(3, 3);
@@ -342,14 +344,27 @@
       this.nodesGroup.TabStop = false;
       this.nodesGroup.Text = "Nodes";
       // 
+      // nodesListCategoryFilter
+      // 
+      this.nodesListCategoryFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.nodesListCategoryFilter.FormattingEnabled = true;
+      this.nodesListCategoryFilter.Location = new System.Drawing.Point(15, 26);
+      this.nodesListCategoryFilter.Name = "nodesListCategoryFilter";
+      this.nodesListCategoryFilter.Size = new System.Drawing.Size(113, 23);
+      this.nodesListCategoryFilter.TabIndex = 1;
+      this.nodesListCategoryFilter.SelectedIndexChanged += new System.EventHandler(this.nodesListCategoryFilter_SelectedIndexChanged);
+      // 
       // nodesList
       // 
-      this.nodesList.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.nodesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.nodesList.FormattingEnabled = true;
       this.nodesList.ItemHeight = 15;
-      this.nodesList.Location = new System.Drawing.Point(15, 31);
+      this.nodesList.Location = new System.Drawing.Point(15, 61);
       this.nodesList.Name = "nodesList";
-      this.nodesList.Size = new System.Drawing.Size(113, 656);
+      this.nodesList.Size = new System.Drawing.Size(113, 619);
       this.nodesList.Sorted = true;
       this.nodesList.TabIndex = 0;
       this.nodesList.SelectedIndexChanged += new System.EventHandler(this.nodesList_SelectedIndexChanged);
@@ -437,6 +452,7 @@
     private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
     private System.Windows.Forms.Panel panel1;
     private System.Windows.Forms.PictureBox diagramPicBox;
+    private System.Windows.Forms.ComboBox nodesListCategoryFilter;
   }
 }
 

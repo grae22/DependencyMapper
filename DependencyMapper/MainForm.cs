@@ -14,6 +14,7 @@ namespace DependencyMapper
 {
   public partial class MainForm : Form
   {
+    private const string NodeListCategoryFilterAll = "[ALL]";
     private const string UnknownCategory = "unknown";
 
     private INodeDependencyMapper _dependencyMapper = NodeDependencyMapper.Instantiate();
@@ -30,6 +31,8 @@ namespace DependencyMapper
     public MainForm()
     {
       InitializeComponent();
+
+      PopulateNodeListCategoryFilters();
     }
 
     private void newNodeBtn_Click(object sender, EventArgs e)
@@ -38,11 +41,14 @@ namespace DependencyMapper
 
       newNode.UpdateName("New Node");
 
-      var uiNode = new NodeWrapper(newNode);
+      if (IsCategoryVisibleInNodesList(newNode.Category))
+      {
+        var uiNode = new NodeWrapper(newNode);
 
-      nodesList.Items.Add(uiNode);
+        nodesList.Items.Add(uiNode);
 
-      nodesList.SelectedItem = uiNode;
+        nodesList.SelectedItem = uiNode;
+      }
       
       nodeNameTxtBox.Focus();
     }
@@ -106,6 +112,7 @@ namespace DependencyMapper
       node.UpdateCategory(nodeCategory);
 
       Save();
+      PopulateNodeListCategoryFilters();
     }
 
     private INode GetSelectedNode()
@@ -190,18 +197,6 @@ namespace DependencyMapper
       string serialisedData = File.ReadAllText(_saveFilename);
 
       _dependencyMapper = NodeDependencyMapper.InstantiateFromSerialisedData(serialisedData);
-      
-      nodesList.Items.Clear();
-
-      _dependencyMapper
-        .Nodes
-        .ToList()
-        .ForEach(n =>
-        {
-          var wrappedNode = new NodeWrapper(n);
-
-          nodesList.Items.Add(wrappedNode);
-        });
 
       nodeCategoryDropdown
         .Items
@@ -213,6 +208,8 @@ namespace DependencyMapper
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToArray());
 
+      PopulateNodeListCategoryFilters();
+      PopulateNodesList();
       UpdateDiagram();
     }
 
@@ -344,6 +341,68 @@ namespace DependencyMapper
     private void nodeCategoryDropdown_Enter(object sender, EventArgs e)
     {
       nodeCategoryDropdown.SelectAll();
+    }
+
+    private void nodesListCategoryFilter_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      PopulateNodesList();
+    }
+
+    private void PopulateNodeListCategoryFilters()
+    {
+      bool selectAll = nodesListCategoryFilter.SelectedIndex == -1;
+
+      nodesListCategoryFilter.SelectedIndexChanged -= nodesListCategoryFilter_SelectedIndexChanged;
+
+      nodesListCategoryFilter.Items.Clear();
+      nodesListCategoryFilter.Items.Add(NodeListCategoryFilterAll);
+
+      nodesListCategoryFilter
+        .Items
+        .AddRange(
+          _dependencyMapper
+            .Nodes
+            .ToList()
+            .Select(n => n.Category)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray());
+
+      if (selectAll)
+      {
+        nodesListCategoryFilter.SelectedIndex = 0;
+      }
+
+      nodesListCategoryFilter.SelectedIndexChanged += nodesListCategoryFilter_SelectedIndexChanged;
+    }
+
+    private bool IsCategoryVisibleInNodesList(in string category)
+    {
+      return nodesListCategoryFilter.Text.Equals(
+          NodeListCategoryFilterAll,
+          StringComparison.OrdinalIgnoreCase) ||
+        nodesListCategoryFilter.Text.Equals(
+          category,
+          StringComparison.OrdinalIgnoreCase);
+    }
+
+    private void PopulateNodesList()
+    {
+      nodesList.SelectedIndexChanged -= nodesList_SelectedIndexChanged;
+
+      nodesList.Items.Clear();
+
+      _dependencyMapper
+        .Nodes
+        .ToList()
+        .ForEach(n =>
+        {
+          if (IsCategoryVisibleInNodesList(n.Category))
+          {
+            nodesList.Items.Add(new NodeWrapper(n));
+          }
+        });
+
+      nodesList.SelectedIndexChanged += nodesList_SelectedIndexChanged;
     }
   }
 }
