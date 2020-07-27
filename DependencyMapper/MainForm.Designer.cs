@@ -52,6 +52,7 @@
       this.nodeNameLabel = new System.Windows.Forms.Label();
       this.nodeNameTxtBox = new System.Windows.Forms.TextBox();
       this.nodesGroup = new System.Windows.Forms.GroupBox();
+      this.nodesListShowSelectedNodeDependants = new System.Windows.Forms.Button();
       this.nodesListShowSelectedNodeDependencies = new System.Windows.Forms.Button();
       this.nodesListNameFilterClearBtn = new System.Windows.Forms.Button();
       this.nodesListNameFilter = new System.Windows.Forms.TextBox();
@@ -337,6 +338,7 @@
       // 
       // nodesGroup
       // 
+      this.nodesGroup.Controls.Add(this.nodesListShowSelectedNodeDependants);
       this.nodesGroup.Controls.Add(this.nodesListShowSelectedNodeDependencies);
       this.nodesGroup.Controls.Add(this.nodesListNameFilterClearBtn);
       this.nodesGroup.Controls.Add(this.nodesListNameFilter);
@@ -351,11 +353,23 @@
       this.nodesGroup.TabStop = false;
       this.nodesGroup.Text = "Nodes";
       // 
+      // nodesListShowSelectedNodeDependants
+      // 
+      this.nodesListShowSelectedNodeDependants.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.nodesListShowSelectedNodeDependants.Location = new System.Drawing.Point(15, 670);
+      this.nodesListShowSelectedNodeDependants.Name = "nodesListShowSelectedNodeDependants";
+      this.nodesListShowSelectedNodeDependants.Size = new System.Drawing.Size(113, 23);
+      this.nodesListShowSelectedNodeDependants.TabIndex = 4;
+      this.nodesListShowSelectedNodeDependants.Text = "Dependants";
+      this.nodesListShowSelectedNodeDependants.UseVisualStyleBackColor = true;
+      this.nodesListShowSelectedNodeDependants.Click += new System.EventHandler(this.nodesListShowSelectedNodeDependants_Click);
+      // 
       // nodesListShowSelectedNodeDependencies
       // 
       this.nodesListShowSelectedNodeDependencies.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.nodesListShowSelectedNodeDependencies.Location = new System.Drawing.Point(15, 671);
+      this.nodesListShowSelectedNodeDependencies.Location = new System.Drawing.Point(15, 641);
       this.nodesListShowSelectedNodeDependencies.Name = "nodesListShowSelectedNodeDependencies";
       this.nodesListShowSelectedNodeDependencies.Size = new System.Drawing.Size(113, 23);
       this.nodesListShowSelectedNodeDependencies.TabIndex = 4;
@@ -406,7 +420,7 @@
       this.nodesList.ItemHeight = 15;
       this.nodesList.Location = new System.Drawing.Point(15, 91);
       this.nodesList.Name = "nodesList";
-      this.nodesList.Size = new System.Drawing.Size(113, 574);
+      this.nodesList.Size = new System.Drawing.Size(113, 544);
       this.nodesList.Sorted = true;
       this.nodesList.TabIndex = 0;
       this.nodesList.SelectedIndexChanged += new System.EventHandler(this.nodesList_SelectedIndexChanged);
@@ -499,6 +513,7 @@
     private System.Windows.Forms.TextBox nodesListNameFilter;
     private System.Windows.Forms.Button nodesListNameFilterClearBtn;
     private System.Windows.Forms.Button nodesListShowSelectedNodeDependencies;
+    private System.Windows.Forms.Button nodesListShowSelectedNodeDependants;
   }
 }
 

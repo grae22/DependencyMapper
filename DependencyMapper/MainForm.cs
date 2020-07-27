@@ -404,22 +404,29 @@ namespace DependencyMapper
           StringComparison.OrdinalIgnoreCase);
     }
 
-    private void PopulateNodesList(in INode showNodeDependencies = null)
+    private void PopulateNodesList(
+      in INode showNodeDependencies = null,
+      in INode showNodeDependants = null)
     {
       nodesList.SelectedIndexChanged -= nodesList_SelectedIndexChanged;
 
       nodesList.Items.Clear();
 
-      INode showNodeDependenciesLocal = showNodeDependencies;
-
       List<INode> nodes;
 
-      if (showNodeDependenciesLocal != null)
+      if (showNodeDependencies != null)
       {
         nodes = new List<INode>(
           _dependencyMapper.GetDependencies(showNodeDependencies, true));
 
         nodes.Add(showNodeDependencies);
+      }
+      else if (showNodeDependants != null)
+      {
+        nodes = new List<INode>(
+          _dependencyMapper.GetDependants(showNodeDependants, true));
+
+        nodes.Add(showNodeDependants);
       }
       else
       {
@@ -465,6 +472,7 @@ namespace DependencyMapper
       if (nodesListShowSelectedNodeDependencies.Text == "RESET")
       {
         nodesListShowSelectedNodeDependencies.Text = "Dependencies";
+        nodesListShowSelectedNodeDependants.Text = "Dependants";
 
         PopulateNodesList();
 
@@ -488,6 +496,40 @@ namespace DependencyMapper
 
       PopulateNodesList(node);
 
+      nodesListShowSelectedNodeDependencies.Text = "RESET";
+      nodesListShowSelectedNodeDependants.Text = "RESET";
+    }
+
+    private void nodesListShowSelectedNodeDependants_Click(object sender, EventArgs e)
+    {
+      if (nodesListShowSelectedNodeDependants.Text == "RESET")
+      {
+        nodesListShowSelectedNodeDependants.Text = "Dependants";
+        nodesListShowSelectedNodeDependencies.Text = "Dependencies";
+
+        PopulateNodesList();
+
+        return;
+      }
+
+      INode node = GetSelectedNode();
+
+      if (node == null)
+      {
+        MessageBox.Show(
+          "Select a node first.",
+          "No Node Selected",
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Information);
+        return;
+      }
+
+      nodesListCategoryFilter.Text = NodesListCategoryFilterAll;
+      nodesListNameFilter.Text = string.Empty;
+
+      PopulateNodesList(null, node);
+
+      nodesListShowSelectedNodeDependants.Text = "RESET";
       nodesListShowSelectedNodeDependencies.Text = "RESET";
     }
 

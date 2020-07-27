@@ -137,9 +137,11 @@ namespace DependencyMapper.Mapping
       return _nodeDependencyManager.GetDependencies(dependant, includeIndirectDependencies);
     }
 
-    public IEnumerable<INode> GetDependants(in INode dependency)
+    public IEnumerable<INode> GetDependants(
+      in INode dependency,
+      in bool includeIndirectDependants = false)
     {
-      return _nodeDependencyManager.GetDependants(dependency);
+      return _nodeDependencyManager.GetDependants(dependency, includeIndirectDependants);
     }
 
     public void AddDependency(

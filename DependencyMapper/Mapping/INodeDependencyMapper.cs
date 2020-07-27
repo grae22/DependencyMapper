@@ -18,7 +18,9 @@ namespace DependencyMapper.Mapping
       in INode dependant,
       in bool includeIndirectDependencies = false);
 
-    IEnumerable<INode> GetDependants(in INode dependency);
+    IEnumerable<INode> GetDependants(
+      in INode dependency,
+      in bool includeIndirectDependants = false);
 
     void AddDependency(
       in INode dependant,
