@@ -241,7 +241,7 @@ namespace DependencyMapper.GraphViz
           }
           catch( Exception )
           {
-            // Ignore.
+            Debug.WriteLine($"Failed to delete \"{oldImagePath}\"");
           }
         }
 

@@ -315,12 +315,15 @@ namespace DependencyMapper
 
       graphViz.CreateDiagram("diagram");
 
-      using (Image img = new Bitmap(
+      Image img;
+
+      using (Bitmap bmp = new Bitmap(
         $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\GraphVisTmp\diagram.bmp"))
       {
-        // We have to clone to avoid errors when resizing.
-        diagramPicBox.Image = (Image)img.Clone();
+        img = new Bitmap(bmp);
       }
+
+      diagramPicBox.Image = img;
     }
 
     private Color SelectColourByCategory(in string category)
