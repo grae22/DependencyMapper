@@ -52,6 +52,7 @@
       this.nodeNameLabel = new System.Windows.Forms.Label();
       this.nodeNameTxtBox = new System.Windows.Forms.TextBox();
       this.nodesGroup = new System.Windows.Forms.GroupBox();
+      this.nodesListNameFilterClearBtn = new System.Windows.Forms.Button();
       this.nodesListNameFilter = new System.Windows.Forms.TextBox();
       this.nodesListCategoryFilter = new System.Windows.Forms.ComboBox();
       this.nodesList = new System.Windows.Forms.ListBox();
@@ -334,6 +335,7 @@
       // 
       // nodesGroup
       // 
+      this.nodesGroup.Controls.Add(this.nodesListNameFilterClearBtn);
       this.nodesGroup.Controls.Add(this.nodesListNameFilter);
       this.nodesGroup.Controls.Add(this.nodesListCategoryFilter);
       this.nodesGroup.Controls.Add(this.nodesList);
@@ -346,14 +348,26 @@
       this.nodesGroup.TabStop = false;
       this.nodesGroup.Text = "Nodes";
       // 
+      // nodesListNameFilterClearBtn
+      // 
+      this.nodesListNameFilterClearBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.nodesListNameFilterClearBtn.Location = new System.Drawing.Point(102, 57);
+      this.nodesListNameFilterClearBtn.Name = "nodesListNameFilterClearBtn";
+      this.nodesListNameFilterClearBtn.Size = new System.Drawing.Size(26, 23);
+      this.nodesListNameFilterClearBtn.TabIndex = 3;
+      this.nodesListNameFilterClearBtn.Text = "X";
+      this.nodesListNameFilterClearBtn.UseVisualStyleBackColor = true;
+      this.nodesListNameFilterClearBtn.Click += new System.EventHandler(this.nodesListNameFilterClearBtn_Click);
+      // 
       // nodesListNameFilter
       // 
       this.nodesListNameFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
       this.nodesListNameFilter.Location = new System.Drawing.Point(15, 57);
       this.nodesListNameFilter.Name = "nodesListNameFilter";
-      this.nodesListNameFilter.Size = new System.Drawing.Size(113, 23);
+      this.nodesListNameFilter.Size = new System.Drawing.Size(81, 23);
       this.nodesListNameFilter.TabIndex = 2;
+      this.nodesListNameFilter.Enter += new System.EventHandler(this.nodesListNameFilter_Enter);
       this.nodesListNameFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nodesListNameFilter_KeyPress);
       // 
       // nodesListCategoryFilter
@@ -468,6 +482,7 @@
     private System.Windows.Forms.PictureBox diagramPicBox;
     private System.Windows.Forms.ComboBox nodesListCategoryFilter;
     private System.Windows.Forms.TextBox nodesListNameFilter;
+    private System.Windows.Forms.Button nodesListNameFilterClearBtn;
   }
 }
 

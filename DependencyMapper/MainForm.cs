@@ -428,5 +428,17 @@ namespace DependencyMapper
         PopulateNodesList();
       }      
     }
+
+    private void nodesListNameFilter_Enter(object sender, EventArgs e)
+    {
+      nodesListNameFilter.SelectAll();
+    }
+
+    private void nodesListNameFilterClearBtn_Click(object sender, EventArgs e)
+    {
+      nodesListNameFilter.Text = string.Empty;
+
+      PopulateNodesList();
+    }
   }
 }
