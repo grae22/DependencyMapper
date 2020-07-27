@@ -31,7 +31,10 @@
       this.menuStrip = new System.Windows.Forms.MenuStrip();
       this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-      this.mainLayout = new System.Windows.Forms.TableLayoutPanel();
+      this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+      this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+      this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
       this.mainLeftLayout = new System.Windows.Forms.TableLayoutPanel();
       this.nodeRelationshipsGroup = new System.Windows.Forms.GroupBox();
       this.nodeRelationshipsList = new System.Windows.Forms.ListBox();
@@ -50,18 +53,25 @@
       this.nodeNameTxtBox = new System.Windows.Forms.TextBox();
       this.nodesGroup = new System.Windows.Forms.GroupBox();
       this.nodesList = new System.Windows.Forms.ListBox();
+      this.diagramPicBox = new System.Windows.Forms.PictureBox();
       this.menuStrip.SuspendLayout();
-      this.mainLayout.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+      this.splitContainer1.Panel1.SuspendLayout();
+      this.splitContainer1.Panel2.SuspendLayout();
+      this.splitContainer1.SuspendLayout();
+      this.tableLayoutPanel1.SuspendLayout();
       this.mainLeftLayout.SuspendLayout();
       this.nodeRelationshipsGroup.SuspendLayout();
       this.nodeBox.SuspendLayout();
       this.nodesGroup.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.diagramPicBox)).BeginInit();
       this.SuspendLayout();
       // 
       // menuStrip
       // 
       this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem3});
       this.menuStrip.Location = new System.Drawing.Point(0, 0);
       this.menuStrip.Name = "menuStrip";
       this.menuStrip.Size = new System.Drawing.Size(1157, 24);
@@ -83,21 +93,54 @@
       this.toolStripMenuItem2.Text = "&Load";
       this.toolStripMenuItem2.Click += new System.EventHandler(this.OnFileLoad);
       // 
-      // mainLayout
+      // toolStripMenuItem3
       // 
-      this.mainLayout.ColumnCount = 3;
-      this.mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.61971F));
-      this.mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.75627F));
-      this.mainLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.71046F));
-      this.mainLayout.Controls.Add(this.mainLeftLayout, 1, 0);
-      this.mainLayout.Controls.Add(this.nodesGroup, 0, 0);
-      this.mainLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.mainLayout.Location = new System.Drawing.Point(0, 24);
-      this.mainLayout.Name = "mainLayout";
-      this.mainLayout.RowCount = 1;
-      this.mainLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-      this.mainLayout.Size = new System.Drawing.Size(1157, 713);
-      this.mainLayout.TabIndex = 1;
+      this.toolStripMenuItem3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem4});
+      this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+      this.toolStripMenuItem3.Size = new System.Drawing.Size(64, 20);
+      this.toolStripMenuItem3.Text = "&Diagram";
+      // 
+      // toolStripMenuItem4
+      // 
+      this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+      this.toolStripMenuItem4.Size = new System.Drawing.Size(121, 22);
+      this.toolStripMenuItem4.Text = "&Generate";
+      this.toolStripMenuItem4.Click += new System.EventHandler(this.OnDiagramGenerate);
+      // 
+      // splitContainer1
+      // 
+      this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+      this.splitContainer1.Name = "splitContainer1";
+      // 
+      // splitContainer1.Panel1
+      // 
+      this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanel1);
+      // 
+      // splitContainer1.Panel2
+      // 
+      this.splitContainer1.Panel2.Controls.Add(this.diagramPicBox);
+      this.splitContainer1.Size = new System.Drawing.Size(1157, 713);
+      this.splitContainer1.SplitterDistance = 385;
+      this.splitContainer1.TabIndex = 1;
+      this.splitContainer1.Text = "splitContainer1";
+      // 
+      // tableLayoutPanel1
+      // 
+      this.tableLayoutPanel1.ColumnCount = 2;
+      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.95582F));
+      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.04418F));
+      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+      this.tableLayoutPanel1.Controls.Add(this.mainLeftLayout, 1, 0);
+      this.tableLayoutPanel1.Controls.Add(this.nodesGroup, 0, 0);
+      this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+      this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+      this.tableLayoutPanel1.RowCount = 1;
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+      this.tableLayoutPanel1.Size = new System.Drawing.Size(385, 713);
+      this.tableLayoutPanel1.TabIndex = 1;
       // 
       // mainLeftLayout
       // 
@@ -106,12 +149,12 @@
       this.mainLeftLayout.Controls.Add(this.nodeRelationshipsGroup, 0, 1);
       this.mainLeftLayout.Controls.Add(this.nodeBox, 0, 0);
       this.mainLeftLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.mainLeftLayout.Location = new System.Drawing.Point(229, 3);
+      this.mainLeftLayout.Location = new System.Drawing.Point(152, 3);
       this.mainLeftLayout.Name = "mainLeftLayout";
       this.mainLeftLayout.RowCount = 2;
       this.mainLeftLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
       this.mainLeftLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-      this.mainLeftLayout.Size = new System.Drawing.Size(291, 707);
+      this.mainLeftLayout.Size = new System.Drawing.Size(230, 707);
       this.mainLeftLayout.TabIndex = 0;
       // 
       // nodeRelationshipsGroup
@@ -123,7 +166,7 @@
       this.nodeRelationshipsGroup.Dock = System.Windows.Forms.DockStyle.Fill;
       this.nodeRelationshipsGroup.Location = new System.Drawing.Point(3, 188);
       this.nodeRelationshipsGroup.Name = "nodeRelationshipsGroup";
-      this.nodeRelationshipsGroup.Size = new System.Drawing.Size(285, 516);
+      this.nodeRelationshipsGroup.Size = new System.Drawing.Size(224, 516);
       this.nodeRelationshipsGroup.TabIndex = 4;
       this.nodeRelationshipsGroup.TabStop = false;
       this.nodeRelationshipsGroup.Text = "Node Relationships";
@@ -137,13 +180,13 @@
       this.nodeRelationshipsList.ItemHeight = 15;
       this.nodeRelationshipsList.Location = new System.Drawing.Point(19, 59);
       this.nodeRelationshipsList.Name = "nodeRelationshipsList";
-      this.nodeRelationshipsList.Size = new System.Drawing.Size(250, 439);
+      this.nodeRelationshipsList.Size = new System.Drawing.Size(189, 439);
       this.nodeRelationshipsList.TabIndex = 2;
       // 
       // nodeRelationshipsEdit
       // 
       this.nodeRelationshipsEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.nodeRelationshipsEdit.Location = new System.Drawing.Point(217, 32);
+      this.nodeRelationshipsEdit.Location = new System.Drawing.Point(156, 32);
       this.nodeRelationshipsEdit.Name = "nodeRelationshipsEdit";
       this.nodeRelationshipsEdit.Size = new System.Drawing.Size(52, 23);
       this.nodeRelationshipsEdit.TabIndex = 1;
@@ -177,7 +220,6 @@
       // 
       // nodeBox
       // 
-      this.nodeBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.nodeBox.Controls.Add(this.nodeDeleteBtn);
       this.nodeBox.Controls.Add(this.newNodeBtn);
       this.nodeBox.Controls.Add(this.nodeSaveBtn);
@@ -190,7 +232,7 @@
       this.nodeBox.Dock = System.Windows.Forms.DockStyle.Fill;
       this.nodeBox.Location = new System.Drawing.Point(3, 3);
       this.nodeBox.Name = "nodeBox";
-      this.nodeBox.Size = new System.Drawing.Size(285, 179);
+      this.nodeBox.Size = new System.Drawing.Size(224, 179);
       this.nodeBox.TabIndex = 0;
       this.nodeBox.TabStop = false;
       this.nodeBox.Text = "Node";
@@ -198,7 +240,7 @@
       // nodeDeleteBtn
       // 
       this.nodeDeleteBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.nodeDeleteBtn.Location = new System.Drawing.Point(113, 138);
+      this.nodeDeleteBtn.Location = new System.Drawing.Point(52, 138);
       this.nodeDeleteBtn.Name = "nodeDeleteBtn";
       this.nodeDeleteBtn.Size = new System.Drawing.Size(75, 23);
       this.nodeDeleteBtn.TabIndex = 3;
@@ -208,7 +250,7 @@
       // newNodeBtn
       // 
       this.newNodeBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.newNodeBtn.Location = new System.Drawing.Point(194, 22);
+      this.newNodeBtn.Location = new System.Drawing.Point(133, 22);
       this.newNodeBtn.Name = "newNodeBtn";
       this.newNodeBtn.Size = new System.Drawing.Size(75, 23);
       this.newNodeBtn.TabIndex = 3;
@@ -219,7 +261,7 @@
       // nodeSaveBtn
       // 
       this.nodeSaveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.nodeSaveBtn.Location = new System.Drawing.Point(194, 138);
+      this.nodeSaveBtn.Location = new System.Drawing.Point(133, 138);
       this.nodeSaveBtn.Name = "nodeSaveBtn";
       this.nodeSaveBtn.Size = new System.Drawing.Size(75, 23);
       this.nodeSaveBtn.TabIndex = 3;
@@ -234,7 +276,7 @@
       this.nodeCategoryDropdown.FormattingEnabled = true;
       this.nodeCategoryDropdown.Location = new System.Drawing.Point(98, 109);
       this.nodeCategoryDropdown.Name = "nodeCategoryDropdown";
-      this.nodeCategoryDropdown.Size = new System.Drawing.Size(171, 23);
+      this.nodeCategoryDropdown.Size = new System.Drawing.Size(110, 23);
       this.nodeCategoryDropdown.TabIndex = 2;
       // 
       // nodeCategoryLabel
@@ -252,7 +294,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.nodeDescriptionTxtBox.Location = new System.Drawing.Point(98, 80);
       this.nodeDescriptionTxtBox.Name = "nodeDescriptionTxtBox";
-      this.nodeDescriptionTxtBox.Size = new System.Drawing.Size(171, 23);
+      this.nodeDescriptionTxtBox.Size = new System.Drawing.Size(110, 23);
       this.nodeDescriptionTxtBox.TabIndex = 0;
       // 
       // nodeDescriptionLabel
@@ -279,7 +321,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.nodeNameTxtBox.Location = new System.Drawing.Point(98, 51);
       this.nodeNameTxtBox.Name = "nodeNameTxtBox";
-      this.nodeNameTxtBox.Size = new System.Drawing.Size(171, 23);
+      this.nodeNameTxtBox.Size = new System.Drawing.Size(110, 23);
       this.nodeNameTxtBox.TabIndex = 0;
       // 
       // nodesGroup
@@ -289,7 +331,7 @@
       this.nodesGroup.Location = new System.Drawing.Point(3, 3);
       this.nodesGroup.Name = "nodesGroup";
       this.nodesGroup.Padding = new System.Windows.Forms.Padding(15, 15, 15, 20);
-      this.nodesGroup.Size = new System.Drawing.Size(220, 707);
+      this.nodesGroup.Size = new System.Drawing.Size(143, 707);
       this.nodesGroup.TabIndex = 1;
       this.nodesGroup.TabStop = false;
       this.nodesGroup.Text = "Nodes";
@@ -301,29 +343,44 @@
       this.nodesList.ItemHeight = 15;
       this.nodesList.Location = new System.Drawing.Point(15, 31);
       this.nodesList.Name = "nodesList";
-      this.nodesList.Size = new System.Drawing.Size(190, 656);
+      this.nodesList.Size = new System.Drawing.Size(113, 656);
       this.nodesList.TabIndex = 0;
       this.nodesList.SelectedIndexChanged += new System.EventHandler(this.nodesList_SelectedIndexChanged);
+      // 
+      // diagramPicBox
+      // 
+      this.diagramPicBox.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.diagramPicBox.ImageLocation = "";
+      this.diagramPicBox.Location = new System.Drawing.Point(0, 0);
+      this.diagramPicBox.Name = "diagramPicBox";
+      this.diagramPicBox.Size = new System.Drawing.Size(768, 713);
+      this.diagramPicBox.TabIndex = 0;
+      this.diagramPicBox.TabStop = false;
       // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1157, 737);
-      this.Controls.Add(this.mainLayout);
+      this.Controls.Add(this.splitContainer1);
       this.Controls.Add(this.menuStrip);
       this.Name = "MainForm";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "Dependency Mapper";
       this.menuStrip.ResumeLayout(false);
       this.menuStrip.PerformLayout();
-      this.mainLayout.ResumeLayout(false);
+      this.splitContainer1.Panel1.ResumeLayout(false);
+      this.splitContainer1.Panel2.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+      this.splitContainer1.ResumeLayout(false);
+      this.tableLayoutPanel1.ResumeLayout(false);
       this.mainLeftLayout.ResumeLayout(false);
       this.nodeRelationshipsGroup.ResumeLayout(false);
       this.nodeRelationshipsGroup.PerformLayout();
       this.nodeBox.ResumeLayout(false);
       this.nodeBox.PerformLayout();
       this.nodesGroup.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.diagramPicBox)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -333,26 +390,30 @@
 
     private System.Windows.Forms.MenuStrip menuStrip;
     private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-    private System.Windows.Forms.TableLayoutPanel mainLayout;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+    private System.Windows.Forms.SplitContainer splitContainer1;
+    private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     private System.Windows.Forms.TableLayoutPanel mainLeftLayout;
-    private System.Windows.Forms.GroupBox nodeBox;
-    private System.Windows.Forms.Label nodeNameLabel;
-    private System.Windows.Forms.TextBox nodeNameTxtBox;
-    private System.Windows.Forms.TextBox nodeDescriptionTxtBox;
-    private System.Windows.Forms.Label nodeDescriptionLabel;
-    private System.Windows.Forms.ComboBox nodeCategoryDropdown;
-    private System.Windows.Forms.Label nodeCategoryLabel;
-    private System.Windows.Forms.Button nodeSaveBtn;
-    private System.Windows.Forms.Button nodeDeleteBtn;
-    private System.Windows.Forms.Button newNodeBtn;
     private System.Windows.Forms.GroupBox nodeRelationshipsGroup;
+    private System.Windows.Forms.ListBox nodeRelationshipsList;
+    private System.Windows.Forms.Button nodeRelationshipsEdit;
     private System.Windows.Forms.RadioButton nodeDependantsBtn;
     private System.Windows.Forms.RadioButton nodeDependenciesBtn;
-    private System.Windows.Forms.Button nodeRelationshipsEdit;
-    private System.Windows.Forms.ListBox nodeRelationshipsList;
+    private System.Windows.Forms.GroupBox nodeBox;
+    private System.Windows.Forms.Button nodeDeleteBtn;
+    private System.Windows.Forms.Button newNodeBtn;
+    private System.Windows.Forms.Button nodeSaveBtn;
+    private System.Windows.Forms.ComboBox nodeCategoryDropdown;
+    private System.Windows.Forms.Label nodeCategoryLabel;
+    private System.Windows.Forms.TextBox nodeDescriptionTxtBox;
+    private System.Windows.Forms.Label nodeDescriptionLabel;
+    private System.Windows.Forms.Label nodeNameLabel;
+    private System.Windows.Forms.TextBox nodeNameTxtBox;
     private System.Windows.Forms.GroupBox nodesGroup;
     private System.Windows.Forms.ListBox nodesList;
-    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+    private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+    private System.Windows.Forms.PictureBox diagramPicBox;
   }
 }
 

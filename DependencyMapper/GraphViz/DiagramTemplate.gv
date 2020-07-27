@@ -1,0 +1,10 @@
+digraph DependencyDiagramTemplate
+{
+  ranksep=0.5;
+  ratio=auto;
+
+  node [style="filled" fontname="verdana" fontsize="10.0"];
+
+<INSERT_NODES_HERE>
+<INSERT_LINKS_HERE>
+}

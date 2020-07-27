@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
+using DependencyMapper.GraphViz;
 using DependencyMapper.Mapping;
 using DependencyMapper.Ui;
 
@@ -168,6 +171,8 @@ namespace DependencyMapper
 
           nodesList.Items.Add(wrappedNode);
         });
+
+      UpdateDiagram();
     }
 
     private void nodeRelationshipsEdit_Click(object sender, EventArgs e)
@@ -195,6 +200,9 @@ namespace DependencyMapper
       {
         dlg.ShowDialog(this);
       }
+
+      Save();
+      UpdateDiagram();
     }
 
     private void PopulateNodeRelationshipsList()
@@ -232,6 +240,46 @@ namespace DependencyMapper
     private void nodeDependantsBtn_CheckedChanged(object sender, EventArgs e)
     {
       PopulateNodeRelationshipsList();
+    }
+
+    private void OnDiagramGenerate(object sender, EventArgs args)
+    {
+      UpdateDiagram();
+    }
+
+    private void UpdateDiagram()
+    {
+      var graphViz = new GraphVizDiagram(
+        @"F:\Apps\GraphViz\bin\",
+        @"GraphViz\DiagramTemplate.gv");
+
+      _dependencyMapper
+        .Nodes
+        .ToList()
+        .ForEach(n =>
+        {
+          graphViz.AddNode(
+            n.Id,
+            n.Name,
+            n.Description,
+            50,
+            Color.Blue,
+            GraphVizDiagram.Node.NodeShape.BOX);
+
+          _dependencyMapper
+            .GetDependencies(n)
+            .ToList()
+            .ForEach(d => graphViz.AddLinkToNode(n.Id, d.Id));
+        });
+
+      graphViz.CreateDiagram("diagram");
+
+      using (Image img = new Bitmap(
+        $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\GraphVisTmp\diagram.bmp"))
+      {
+        diagramPicBox.Image = img;
+        diagramPicBox.Refresh();
+      }
     }
   }
 }
