@@ -52,6 +52,7 @@
       this.nodeNameLabel = new System.Windows.Forms.Label();
       this.nodeNameTxtBox = new System.Windows.Forms.TextBox();
       this.nodesGroup = new System.Windows.Forms.GroupBox();
+      this.nodesListNameFilter = new System.Windows.Forms.TextBox();
       this.nodesListCategoryFilter = new System.Windows.Forms.ComboBox();
       this.nodesList = new System.Windows.Forms.ListBox();
       this.panel1 = new System.Windows.Forms.Panel();
@@ -333,6 +334,7 @@
       // 
       // nodesGroup
       // 
+      this.nodesGroup.Controls.Add(this.nodesListNameFilter);
       this.nodesGroup.Controls.Add(this.nodesListCategoryFilter);
       this.nodesGroup.Controls.Add(this.nodesList);
       this.nodesGroup.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -344,10 +346,21 @@
       this.nodesGroup.TabStop = false;
       this.nodesGroup.Text = "Nodes";
       // 
+      // nodesListNameFilter
+      // 
+      this.nodesListNameFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+      this.nodesListNameFilter.Location = new System.Drawing.Point(15, 57);
+      this.nodesListNameFilter.Name = "nodesListNameFilter";
+      this.nodesListNameFilter.Size = new System.Drawing.Size(113, 23);
+      this.nodesListNameFilter.TabIndex = 2;
+      this.nodesListNameFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nodesListNameFilter_KeyPress);
+      // 
       // nodesListCategoryFilter
       // 
       this.nodesListCategoryFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+      this.nodesListCategoryFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.nodesListCategoryFilter.FormattingEnabled = true;
       this.nodesListCategoryFilter.Location = new System.Drawing.Point(15, 26);
       this.nodesListCategoryFilter.Name = "nodesListCategoryFilter";
@@ -362,9 +375,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.nodesList.FormattingEnabled = true;
       this.nodesList.ItemHeight = 15;
-      this.nodesList.Location = new System.Drawing.Point(15, 61);
+      this.nodesList.Location = new System.Drawing.Point(15, 91);
       this.nodesList.Name = "nodesList";
-      this.nodesList.Size = new System.Drawing.Size(113, 619);
+      this.nodesList.Size = new System.Drawing.Size(113, 589);
       this.nodesList.Sorted = true;
       this.nodesList.TabIndex = 0;
       this.nodesList.SelectedIndexChanged += new System.EventHandler(this.nodesList_SelectedIndexChanged);
@@ -415,6 +428,7 @@
       this.nodeBox.ResumeLayout(false);
       this.nodeBox.PerformLayout();
       this.nodesGroup.ResumeLayout(false);
+      this.nodesGroup.PerformLayout();
       this.panel1.ResumeLayout(false);
       this.panel1.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.diagramPicBox)).EndInit();
@@ -453,6 +467,7 @@
     private System.Windows.Forms.Panel panel1;
     private System.Windows.Forms.PictureBox diagramPicBox;
     private System.Windows.Forms.ComboBox nodesListCategoryFilter;
+    private System.Windows.Forms.TextBox nodesListNameFilter;
   }
 }
 

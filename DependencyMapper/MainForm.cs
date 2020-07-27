@@ -14,8 +14,9 @@ namespace DependencyMapper
 {
   public partial class MainForm : Form
   {
-    private const string NodeListCategoryFilterAll = "[ALL]";
+    private const string NodesListCategoryFilterAll = "[ALL]";
     private const string UnknownCategory = "unknown";
+    private const string DefaultCategory = "Default";
 
     private INodeDependencyMapper _dependencyMapper = NodeDependencyMapper.Instantiate();
     private string _saveFilename;
@@ -40,15 +41,18 @@ namespace DependencyMapper
       INode newNode = _dependencyMapper.CreateNode();
 
       newNode.UpdateName("New Node");
+      newNode.UpdateCategory(DefaultCategory);
 
-      if (IsCategoryVisibleInNodesList(newNode.Category))
+      if (nodesListCategoryFilter.Text != NodesListCategoryFilterAll)
       {
-        var uiNode = new NodeWrapper(newNode);
-
-        nodesList.Items.Add(uiNode);
-
-        nodesList.SelectedItem = uiNode;
+        newNode.UpdateCategory(nodesListCategoryFilter.Text);
       }
+
+      var uiNode = new NodeWrapper(newNode);
+
+      nodesList.Items.Add(uiNode);
+
+      nodesList.SelectedItem = uiNode;
       
       nodeNameTxtBox.Focus();
     }
@@ -111,8 +115,18 @@ namespace DependencyMapper
       node.UpdateDescription(nodeDescription);
       node.UpdateCategory(nodeCategory);
 
+      if (!nodeName.Contains(
+        nodesListNameFilter.Text,
+        StringComparison.OrdinalIgnoreCase))
+      {
+        nodesListNameFilter.Text = string.Empty;
+      }
+
       Save();
       PopulateNodeListCategoryFilters();
+
+      nodesList.Sorted = false;
+      nodesList.Sorted = true;
     }
 
     private INode GetSelectedNode()
@@ -350,12 +364,13 @@ namespace DependencyMapper
 
     private void PopulateNodeListCategoryFilters()
     {
-      bool selectAll = nodesListCategoryFilter.SelectedIndex == -1;
+      bool selectAll = nodesListCategoryFilter.SelectedIndex == -1 ||
+        nodesListCategoryFilter.Text.Equals(NodesListCategoryFilterAll, StringComparison.OrdinalIgnoreCase);
 
       nodesListCategoryFilter.SelectedIndexChanged -= nodesListCategoryFilter_SelectedIndexChanged;
 
       nodesListCategoryFilter.Items.Clear();
-      nodesListCategoryFilter.Items.Add(NodeListCategoryFilterAll);
+      nodesListCategoryFilter.Items.Add(NodesListCategoryFilterAll);
 
       nodesListCategoryFilter
         .Items
@@ -369,7 +384,7 @@ namespace DependencyMapper
 
       if (selectAll)
       {
-        nodesListCategoryFilter.SelectedIndex = 0;
+        nodesListCategoryFilter.Text = NodesListCategoryFilterAll;
       }
 
       nodesListCategoryFilter.SelectedIndexChanged += nodesListCategoryFilter_SelectedIndexChanged;
@@ -378,7 +393,7 @@ namespace DependencyMapper
     private bool IsCategoryVisibleInNodesList(in string category)
     {
       return nodesListCategoryFilter.Text.Equals(
-          NodeListCategoryFilterAll,
+          NodesListCategoryFilterAll,
           StringComparison.OrdinalIgnoreCase) ||
         nodesListCategoryFilter.Text.Equals(
           category,
@@ -396,13 +411,22 @@ namespace DependencyMapper
         .ToList()
         .ForEach(n =>
         {
-          if (IsCategoryVisibleInNodesList(n.Category))
+          if (IsCategoryVisibleInNodesList(n.Category) &&
+            n.Name.Contains(nodesListNameFilter.Text, StringComparison.OrdinalIgnoreCase))
           {
             nodesList.Items.Add(new NodeWrapper(n));
           }
         });
 
       nodesList.SelectedIndexChanged += nodesList_SelectedIndexChanged;
+    }
+
+    private void nodesListNameFilter_KeyPress(object sender, KeyPressEventArgs e)
+    {
+      if (e.KeyChar == 13)
+      {
+        PopulateNodesList();
+      }      
     }
   }
 }
