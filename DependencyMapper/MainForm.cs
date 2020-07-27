@@ -27,7 +27,19 @@ namespace DependencyMapper
       { "input", Color.FromArgb(100, 180, 255) },
       { "output", Color.FromArgb(180, 255, 180) },
       { "subsystem", Color.FromArgb(255, 180, 180) },
+      { "sound", Color.FromArgb(255, 255, 180) },
+      { "gfx", Color.FromArgb(180, 255, 255) },
       { UnknownCategory, Color.FromArgb(255, 100, 255) }
+    };
+
+    private Dictionary<string, GraphVizDiagram.Node.NodeShape> _diagramNodeShapeByCategory = new Dictionary<string, GraphVizDiagram.Node.NodeShape>(StringComparer.OrdinalIgnoreCase)
+    {
+      { "input", GraphVizDiagram.Node.NodeShape.BOX },
+      { "output", GraphVizDiagram.Node.NodeShape.BOX },
+      { "subsystem", GraphVizDiagram.Node.NodeShape.BOX },
+      { "sound", GraphVizDiagram.Node.NodeShape.OCTAGON },
+      { "gfx", GraphVizDiagram.Node.NodeShape.OCTAGON },
+      { UnknownCategory, GraphVizDiagram.Node.NodeShape.BOX }
     };
 
     public MainForm()
@@ -314,13 +326,21 @@ namespace DependencyMapper
 
       nodes.ForEach(n =>
       {
+        Color colour;
+        GraphVizDiagram.Node.NodeShape shape;
+
+        SelectColourAndShapeByCategory(
+          n.Category,
+          out colour,
+          out shape);
+
         graphViz.AddNode(
           n.Id,
           n.Name,
           n.Description,
           50,
-          SelectColourByCategory(n.Category),
-          GraphVizDiagram.Node.NodeShape.BOX);
+          colour,
+          shape);
 
         _dependencyMapper
           .GetDependencies(n)
@@ -341,14 +361,22 @@ namespace DependencyMapper
       diagramPicBox.Image = img;
     }
 
-    private Color SelectColourByCategory(in string category)
+    private void SelectColourAndShapeByCategory(
+      in string category,
+      out Color colour,
+      out GraphVizDiagram.Node.NodeShape shape)
     {
-      if (_diagramNodeColourByCategory.ContainsKey(category))
+      if (_diagramNodeColourByCategory.ContainsKey(category) &&
+        _diagramNodeShapeByCategory.ContainsKey(category))
       {
-        return _diagramNodeColourByCategory[category];
+        colour = _diagramNodeColourByCategory[category];
+        shape = _diagramNodeShapeByCategory[category];
+
+        return;
       }
 
-      return _diagramNodeColourByCategory[UnknownCategory];
+      colour = _diagramNodeColourByCategory[UnknownCategory];
+      shape = _diagramNodeShapeByCategory[UnknownCategory];
     }
 
     private void nodeNameTxtBox_Enter(object sender, EventArgs e)
