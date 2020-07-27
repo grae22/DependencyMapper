@@ -100,7 +100,24 @@ namespace DependencyMapper.Mapping
 
     public void RemoveNode(in int nodeId)
     {
-      // TODO
+      int nodeIdLocal = nodeId;
+
+      if (!_nodes.Any(n => n.Id == nodeIdLocal))
+      {
+        return;
+      }
+
+      INode node = _nodes.Single<INode>(n => n.Id == nodeIdLocal);
+
+      GetDependencies(node)
+        .ToList()
+        .ForEach(d => RemoveDependency(node, d));
+
+      GetDependants(node)
+        .ToList()
+        .ForEach(d => RemoveDependency(d, node));
+
+      _nodes.Remove(node);
     }
 
     public bool IsDependant(

@@ -253,6 +253,7 @@
       this.nodeDeleteBtn.TabIndex = 6;
       this.nodeDeleteBtn.Text = "Delete";
       this.nodeDeleteBtn.UseVisualStyleBackColor = true;
+      this.nodeDeleteBtn.Click += new System.EventHandler(this.nodeDeleteBtn_Click);
       // 
       // newNodeBtn
       // 

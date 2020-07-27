@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 
 using DependencyMapper.GraphViz;
@@ -488,6 +489,43 @@ namespace DependencyMapper
       PopulateNodesList(node);
 
       nodesListShowSelectedNodeDependencies.Text = "RESET";
+    }
+
+    private void nodeDeleteBtn_Click(object sender, EventArgs e)
+    {
+      INode node = GetSelectedNode();
+
+      if (node == null)
+      {
+        MessageBox.Show(
+          "Select a node first.",
+          "Error",
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Error);
+        return;
+      }
+
+      var dependantNodesMessage = new StringBuilder(
+        $"The following nodes depend on this node:{Environment.NewLine}{Environment.NewLine}");
+
+      _dependencyMapper
+        .GetDependants(node)
+        .ToList()
+        .ForEach(d => dependantNodesMessage.Append($"{d.Name}{Environment.NewLine}"));
+
+      if (MessageBox.Show(
+        $"Remove \"{node.Name}\"?{Environment.NewLine}{Environment.NewLine}{dependantNodesMessage}",
+        "Remove Node?",
+        MessageBoxButtons.YesNo,
+        MessageBoxIcon.Question) == DialogResult.No)
+      {
+        return;
+      }
+
+      _dependencyMapper.RemoveNode(node.Id);
+
+      Save();
+      PopulateNodesList();
     }
   }
 }
