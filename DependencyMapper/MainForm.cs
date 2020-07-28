@@ -15,6 +15,7 @@ namespace DependencyMapper
 {
   public partial class MainForm : Form
   {
+    private const string GraphVizPathEnvironmentVariableName = "GraphVizBinPath";
     private const string NodesListCategoryFilterAll = "[ALL]";
     private const string UnknownCategory = "unknown";
     private const string DefaultCategory = "Default";
@@ -313,8 +314,21 @@ namespace DependencyMapper
 
     private void UpdateDiagram()
     {
+      string graphVizBinPath = Environment.GetEnvironmentVariable(GraphVizPathEnvironmentVariableName);
+
+      if (graphVizBinPath == null ||
+        !Directory.Exists(graphVizBinPath))
+      {
+        MessageBox.Show(
+          $"Either the environment variable \"{GraphVizPathEnvironmentVariableName}\" is missing or the path does not exist.",
+          "GraphViz Error",
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Error);
+        return;
+      }
+
       var graphViz = new GraphVizDiagram(
-        @"F:\Apps\GraphViz\bin\",
+        graphVizBinPath,
         @"GraphViz\DiagramTemplate.gv");
 
       var nodes = new List<INode>();

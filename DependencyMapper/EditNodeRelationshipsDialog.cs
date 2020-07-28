@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 using DependencyMapper.Mapping;
@@ -36,37 +37,7 @@ namespace DependencyMapper
 
     private void EditNodeRelationshipsDialog_Load(object sender, EventArgs e)
     {
-      var nodes = new List<INode>(_nodeDependencyMapper.Nodes);
-
-      nodes.Remove(_node);
-
-      if (_mode == RelationshipMode.Dependencies)
-      {
-        RemoveNodesDependingOnSpecifiedNode(_node, nodes);
-      }
-      else
-      {
-        RemoveNodesDependentOnSpecifiedNode(_node, nodes);
-      }
-
-      nodes
-        .ForEach(n =>
-        {
-          bool isBoxChecked;
-
-          if (_mode == RelationshipMode.Dependencies)
-          {
-            isBoxChecked = _nodeDependencyMapper.IsDependant(_node, n);
-          }
-          else
-          {
-            isBoxChecked = _nodeDependencyMapper.IsDependant(n, _node);
-          }
-
-          var wrappedNode = new NodeWrapper(n);
-
-          nodesList.Items.Add(wrappedNode, isBoxChecked);
-        });
+      PopulateNodesList();
     }
 
     private void RemoveNodesDependingOnSpecifiedNode(
@@ -151,6 +122,69 @@ namespace DependencyMapper
     private void closeBtn_Click(object sender, EventArgs e)
     {
       Close();
+    }
+
+    private void filterTxtBox_KeyPress(object sender, KeyPressEventArgs e)
+    {
+      if (e.KeyChar != 13)
+      {
+        return;
+      }
+
+      PopulateNodesList();
+    }
+
+    private void PopulateNodesList()
+    {
+      nodesList.Items.Clear();
+
+      var nodes = new List<INode>(_nodeDependencyMapper.Nodes);
+
+      nodes.Remove(_node);
+
+      if (_mode == RelationshipMode.Dependencies)
+      {
+        RemoveNodesDependingOnSpecifiedNode(_node, nodes);
+      }
+      else
+      {
+        RemoveNodesDependentOnSpecifiedNode(_node, nodes);
+      }
+
+      foreach (var n in nodes)
+      {
+        if (filterTxtBox.Text.Any() &&
+          !n.Name.Contains(
+            filterTxtBox.Text,
+            StringComparison.OrdinalIgnoreCase))
+        {
+          continue;
+        }
+
+        bool isBoxChecked;
+
+        if (_mode == RelationshipMode.Dependencies)
+        {
+          isBoxChecked = _nodeDependencyMapper.IsDependant(_node, n);
+        }
+        else
+        {
+          isBoxChecked = _nodeDependencyMapper.IsDependant(n, _node);
+        }
+
+        var wrappedNode = new NodeWrapper(n);
+
+        nodesList.Items.Add(wrappedNode, isBoxChecked);
+      }
+    }
+
+    private void clearFilterBtn_Click(object sender, EventArgs e)
+    {
+      filterTxtBox.Text = string.Empty;
+
+      PopulateNodesList();
+
+      filterTxtBox.Focus();
     }
   }
 }
