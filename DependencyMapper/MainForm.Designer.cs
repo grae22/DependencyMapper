@@ -410,6 +410,7 @@
       this.nodesListCategoryFilter.Location = new System.Drawing.Point(15, 26);
       this.nodesListCategoryFilter.Name = "nodesListCategoryFilter";
       this.nodesListCategoryFilter.Size = new System.Drawing.Size(161, 23);
+      this.nodesListCategoryFilter.Sorted = true;
       this.nodesListCategoryFilter.TabIndex = 1;
       this.nodesListCategoryFilter.SelectedIndexChanged += new System.EventHandler(this.nodesListCategoryFilter_SelectedIndexChanged);
       // 
