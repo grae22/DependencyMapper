@@ -215,12 +215,20 @@ namespace DependencyMapper
       if (_mode == RelationshipMode.Dependencies)
       {
         RemoveNodesDependingOnSpecifiedNode(_node, nodes);
-        RemoveNodesSpecifiedNodeIndirectlyDependsOn(_node, nodes);
+
+        if (!showIndirectRelationsChkBox.Checked)
+        {
+          RemoveNodesSpecifiedNodeIndirectlyDependsOn(_node, nodes);
+        }        
       }
       else
       {
         RemoveNodesSpecifiedNodeDependsOn(_node, nodes);
-        RemoveNodesIndirectlyDependingOnSpecifiedNode(_node, nodes);
+
+        if (!showIndirectRelationsChkBox.Checked)
+        {
+          RemoveNodesIndirectlyDependingOnSpecifiedNode(_node, nodes);
+        }
       }
 
       foreach (var n in nodes)
@@ -290,6 +298,11 @@ namespace DependencyMapper
       _nodesRemoved.ForEach(n => changes.Append($"-{n.Name}{Environment.NewLine}"));
 
       changesLbl.Text = changes.ToString();
+    }
+
+    private void showIndirectRelationsChkBox_CheckedChanged(object sender, EventArgs e)
+    {
+      PopulateNodesList();
     }
   }
 }

@@ -34,6 +34,8 @@
       this.clearFilterBtn = new System.Windows.Forms.Button();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
       this.changesLbl = new System.Windows.Forms.Label();
+      this.label1 = new System.Windows.Forms.Label();
+      this.showIndirectRelationsChkBox = new System.Windows.Forms.CheckBox();
       this.groupBox1.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -46,7 +48,7 @@
       this.nodesList.FormattingEnabled = true;
       this.nodesList.Location = new System.Drawing.Point(12, 12);
       this.nodesList.Name = "nodesList";
-      this.nodesList.Size = new System.Drawing.Size(451, 418);
+      this.nodesList.Size = new System.Drawing.Size(302, 490);
       this.nodesList.Sorted = true;
       this.nodesList.TabIndex = 0;
       this.nodesList.SelectedValueChanged += new System.EventHandler(this.nodesList_SelectedValueChanged);
@@ -54,7 +56,7 @@
       // closeBtn
       // 
       this.closeBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-      this.closeBtn.Location = new System.Drawing.Point(517, 407);
+      this.closeBtn.Location = new System.Drawing.Point(431, 479);
       this.closeBtn.Name = "closeBtn";
       this.closeBtn.Size = new System.Drawing.Size(75, 23);
       this.closeBtn.TabIndex = 3;
@@ -65,16 +67,16 @@
       // filterTxtBox
       // 
       this.filterTxtBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.filterTxtBox.Location = new System.Drawing.Point(469, 12);
+      this.filterTxtBox.Location = new System.Drawing.Point(365, 50);
       this.filterTxtBox.Name = "filterTxtBox";
-      this.filterTxtBox.Size = new System.Drawing.Size(91, 23);
+      this.filterTxtBox.Size = new System.Drawing.Size(109, 23);
       this.filterTxtBox.TabIndex = 1;
       this.filterTxtBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.filterTxtBox_KeyPress);
       // 
       // clearFilterBtn
       // 
       this.clearFilterBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.clearFilterBtn.Location = new System.Drawing.Point(566, 12);
+      this.clearFilterBtn.Location = new System.Drawing.Point(480, 50);
       this.clearFilterBtn.Name = "clearFilterBtn";
       this.clearFilterBtn.Size = new System.Drawing.Size(26, 23);
       this.clearFilterBtn.TabIndex = 2;
@@ -87,9 +89,9 @@
       this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
       this.groupBox1.Controls.Add(this.changesLbl);
-      this.groupBox1.Location = new System.Drawing.Point(469, 53);
+      this.groupBox1.Location = new System.Drawing.Point(326, 92);
       this.groupBox1.Name = "groupBox1";
-      this.groupBox1.Size = new System.Drawing.Size(123, 336);
+      this.groupBox1.Size = new System.Drawing.Size(180, 371);
       this.groupBox1.TabIndex = 5;
       this.groupBox1.TabStop = false;
       this.groupBox1.Text = "Changes";
@@ -99,15 +101,39 @@
       this.changesLbl.Dock = System.Windows.Forms.DockStyle.Fill;
       this.changesLbl.Location = new System.Drawing.Point(3, 19);
       this.changesLbl.Name = "changesLbl";
-      this.changesLbl.Size = new System.Drawing.Size(117, 314);
+      this.changesLbl.Size = new System.Drawing.Size(174, 349);
       this.changesLbl.TabIndex = 0;
+      // 
+      // label1
+      // 
+      this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.label1.AutoSize = true;
+      this.label1.Location = new System.Drawing.Point(326, 54);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(33, 15);
+      this.label1.TabIndex = 6;
+      this.label1.Text = "Filter";
+      // 
+      // showIndirectRelationsChkBox
+      // 
+      this.showIndirectRelationsChkBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.showIndirectRelationsChkBox.AutoSize = true;
+      this.showIndirectRelationsChkBox.Location = new System.Drawing.Point(365, 25);
+      this.showIndirectRelationsChkBox.Name = "showIndirectRelationsChkBox";
+      this.showIndirectRelationsChkBox.Size = new System.Drawing.Size(146, 19);
+      this.showIndirectRelationsChkBox.TabIndex = 7;
+      this.showIndirectRelationsChkBox.Text = "Show indirect relations";
+      this.showIndirectRelationsChkBox.UseVisualStyleBackColor = true;
+      this.showIndirectRelationsChkBox.CheckedChanged += new System.EventHandler(this.showIndirectRelationsChkBox_CheckedChanged);
       // 
       // EditNodeRelationshipsDialog
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(604, 448);
+      this.ClientSize = new System.Drawing.Size(518, 515);
       this.ControlBox = false;
+      this.Controls.Add(this.showIndirectRelationsChkBox);
+      this.Controls.Add(this.label1);
       this.Controls.Add(this.groupBox1);
       this.Controls.Add(this.clearFilterBtn);
       this.Controls.Add(this.filterTxtBox);
@@ -132,5 +158,7 @@
     private System.Windows.Forms.Button clearFilterBtn;
     private System.Windows.Forms.GroupBox groupBox1;
     private System.Windows.Forms.Label changesLbl;
+    private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.CheckBox showIndirectRelationsChkBox;
   }
 }

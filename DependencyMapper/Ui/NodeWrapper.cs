@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using DependencyMapper.Mapping;
 
@@ -15,7 +16,18 @@ namespace DependencyMapper.Ui
 
     public override string ToString()
     {
-      return Node.Name;
+      if (Node.Category.Length > 0)
+      {
+        string abbreviatedCategory = new string(
+          Node
+            .Category
+            .Where(c => c >= 'A' && c <= 'Z')
+            .ToArray());
+
+        return $"{Node.Name} [{abbreviatedCategory}]";
+      }
+      
+      return $"{Node.Name} [?]";
     }
   }
 }
