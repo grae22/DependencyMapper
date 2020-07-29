@@ -60,6 +60,7 @@
       this.nodesList = new System.Windows.Forms.ListBox();
       this.panel1 = new System.Windows.Forms.Panel();
       this.diagramPicBox = new System.Windows.Forms.PictureBox();
+      this.nodesListCategoryApplyAll = new System.Windows.Forms.Button();
       this.menuStrip.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
       this.splitContainer1.Panel1.SuspendLayout();
@@ -340,6 +341,7 @@
       // nodesGroup
       // 
       this.nodesGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+      this.nodesGroup.Controls.Add(this.nodesListCategoryApplyAll);
       this.nodesGroup.Controls.Add(this.nodesListShowSelectedNodeDependants);
       this.nodesGroup.Controls.Add(this.nodesListShowSelectedNodeDependencies);
       this.nodesGroup.Controls.Add(this.nodesListNameFilterClearBtn);
@@ -362,7 +364,7 @@
       this.nodesListShowSelectedNodeDependants.Location = new System.Drawing.Point(15, 670);
       this.nodesListShowSelectedNodeDependants.Name = "nodesListShowSelectedNodeDependants";
       this.nodesListShowSelectedNodeDependants.Size = new System.Drawing.Size(161, 23);
-      this.nodesListShowSelectedNodeDependants.TabIndex = 4;
+      this.nodesListShowSelectedNodeDependants.TabIndex = 6;
       this.nodesListShowSelectedNodeDependants.Text = "Dependants";
       this.nodesListShowSelectedNodeDependants.UseVisualStyleBackColor = true;
       this.nodesListShowSelectedNodeDependants.Click += new System.EventHandler(this.nodesListShowSelectedNodeDependants_Click);
@@ -374,7 +376,7 @@
       this.nodesListShowSelectedNodeDependencies.Location = new System.Drawing.Point(15, 641);
       this.nodesListShowSelectedNodeDependencies.Name = "nodesListShowSelectedNodeDependencies";
       this.nodesListShowSelectedNodeDependencies.Size = new System.Drawing.Size(161, 23);
-      this.nodesListShowSelectedNodeDependencies.TabIndex = 4;
+      this.nodesListShowSelectedNodeDependencies.TabIndex = 5;
       this.nodesListShowSelectedNodeDependencies.Text = "Dependencies";
       this.nodesListShowSelectedNodeDependencies.UseVisualStyleBackColor = true;
       this.nodesListShowSelectedNodeDependencies.Click += new System.EventHandler(this.nodesListShowSelectedNodeDependencies_Click);
@@ -409,7 +411,7 @@
       this.nodesListCategoryFilter.FormattingEnabled = true;
       this.nodesListCategoryFilter.Location = new System.Drawing.Point(15, 26);
       this.nodesListCategoryFilter.Name = "nodesListCategoryFilter";
-      this.nodesListCategoryFilter.Size = new System.Drawing.Size(161, 23);
+      this.nodesListCategoryFilter.Size = new System.Drawing.Size(122, 23);
       this.nodesListCategoryFilter.Sorted = true;
       this.nodesListCategoryFilter.TabIndex = 1;
       this.nodesListCategoryFilter.SelectedIndexChanged += new System.EventHandler(this.nodesListCategoryFilter_SelectedIndexChanged);
@@ -425,7 +427,7 @@
       this.nodesList.Name = "nodesList";
       this.nodesList.Size = new System.Drawing.Size(161, 544);
       this.nodesList.Sorted = true;
-      this.nodesList.TabIndex = 0;
+      this.nodesList.TabIndex = 4;
       this.nodesList.SelectedIndexChanged += new System.EventHandler(this.nodesList_SelectedIndexChanged);
       // 
       // panel1
@@ -451,6 +453,17 @@
       this.diagramPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
       this.diagramPicBox.TabIndex = 0;
       this.diagramPicBox.TabStop = false;
+      // 
+      // nodesListCategoryApplyAll
+      // 
+      this.nodesListCategoryApplyAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.nodesListCategoryApplyAll.Location = new System.Drawing.Point(143, 25);
+      this.nodesListCategoryApplyAll.Name = "nodesListCategoryApplyAll";
+      this.nodesListCategoryApplyAll.Size = new System.Drawing.Size(33, 23);
+      this.nodesListCategoryApplyAll.TabIndex = 1;
+      this.nodesListCategoryApplyAll.Text = "All";
+      this.nodesListCategoryApplyAll.UseVisualStyleBackColor = true;
+      this.nodesListCategoryApplyAll.Click += new System.EventHandler(this.nodeListCategoryFilterApplyAll_OnClick);
       // 
       // MainForm
       // 
@@ -520,6 +533,7 @@
     private System.Windows.Forms.Button nodesListNameFilterClearBtn;
     private System.Windows.Forms.Button nodesListShowSelectedNodeDependencies;
     private System.Windows.Forms.Button nodesListShowSelectedNodeDependants;
+    private System.Windows.Forms.Button nodesListCategoryApplyAll;
   }
 }
 

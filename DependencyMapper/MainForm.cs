@@ -17,6 +17,7 @@ namespace DependencyMapper
   {
     private const string GraphVizPathEnvironmentVariableName = "GraphVizBinPath";
     private const string NodesListCategoryFilterAll = "[ALL]";
+    private const string NodesListCategoryFilterCustom = "[CUSTOM]";
     private const string UnknownCategory = "unknown";
     private const string DefaultCategory = "Default";
 
@@ -419,6 +420,7 @@ namespace DependencyMapper
 
       nodesListCategoryFilter.Items.Clear();
       nodesListCategoryFilter.Items.Add(NodesListCategoryFilterAll);
+      nodesListCategoryFilter.Items.Add(NodesListCategoryFilterCustom);      
 
       nodesListCategoryFilter
         .Items
@@ -444,12 +446,20 @@ namespace DependencyMapper
 
     private bool IsCategoryVisibleInNodesList(in string category)
     {
-      return nodesListCategoryFilter.Text.Equals(
-          NodesListCategoryFilterAll,
-          StringComparison.OrdinalIgnoreCase) ||
-        nodesListCategoryFilter.Text.Equals(
-          category,
-          StringComparison.OrdinalIgnoreCase);
+      var categories = new List<string>
+      {
+        NodesListCategoryFilterAll,
+        NodesListCategoryFilterCustom
+      };
+
+      if (categories.Contains(nodesListCategoryFilter.Text, StringComparer.OrdinalIgnoreCase))
+      {
+        return true;
+      }
+
+      return category.Equals(
+        nodesListCategoryFilter.Text,
+        StringComparison.OrdinalIgnoreCase);
     }
 
     private void PopulateNodesList(
@@ -547,7 +557,7 @@ namespace DependencyMapper
         return;
       }
 
-      nodesListCategoryFilter.Text = NodesListCategoryFilterAll;
+      nodesListCategoryFilter.Text = NodesListCategoryFilterCustom;
       nodesListNameFilter.Text = string.Empty;
 
       PopulateNodesList(node);
@@ -567,7 +577,7 @@ namespace DependencyMapper
         return;
       }
 
-      nodesListCategoryFilter.Text = NodesListCategoryFilterAll;
+      nodesListCategoryFilter.Text = NodesListCategoryFilterCustom;
       nodesListNameFilter.Text = string.Empty;
 
       PopulateNodesList(null, node);
@@ -608,6 +618,11 @@ namespace DependencyMapper
 
       Save();
       PopulateNodesList();
+    }
+
+    private void nodeListCategoryFilterApplyAll_OnClick(object sender, EventArgs args)
+    {
+      nodesListCategoryFilter.Text = NodesListCategoryFilterAll;
     }
   }
 }
