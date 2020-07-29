@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 using DependencyMapper.Mapping;
@@ -19,6 +20,8 @@ namespace DependencyMapper
     private readonly INode _node;
     private readonly INodeDependencyMapper _nodeDependencyMapper;
     private readonly RelationshipMode _mode;
+    private readonly List<INode> _nodesAdded = new List<INode>();
+    private readonly List<INode> _nodesRemoved = new List<INode>();
 
     public EditNodeRelationshipsDialog(
       in INode node,
@@ -62,7 +65,32 @@ namespace DependencyMapper
       }      
     }
 
-    private void RemoveNodesDependentOnSpecifiedNode(
+    private void RemoveNodesIndirectlyDependingOnSpecifiedNode(
+      in INode node,
+      in IList<INode> nodes)
+    {
+      IEnumerable<INode> directDependants = _nodeDependencyMapper.GetDependants(node);
+
+      var nodesToRemove = new List<INode>();
+
+      foreach (var n in nodes)
+      {
+        bool isDependant = _nodeDependencyMapper.IsDependant(n, node);
+        bool isDirectDependant = directDependants.Contains(n);
+
+        if (isDependant && !isDirectDependant)
+        {
+          nodesToRemove.Add(n);
+        }
+      }
+
+      foreach (var n in nodesToRemove)
+      {
+        nodes.Remove(n);
+      }
+    }
+
+    private void RemoveNodesSpecifiedNodeDependsOn(
       in INode node,
       in IList<INode> nodes)
     {
@@ -73,6 +101,31 @@ namespace DependencyMapper
         bool isDependant = _nodeDependencyMapper.IsDependant(node, n);
 
         if (isDependant)
+        {
+          nodesToRemove.Add(n);
+        }
+      }
+
+      foreach (var n in nodesToRemove)
+      {
+        nodes.Remove(n);
+      }
+    }
+
+    private void RemoveNodesSpecifiedNodeIndirectlyDependsOn(
+      in INode node,
+      in IList<INode> nodes)
+    {
+      IEnumerable<INode> directDependencies = _nodeDependencyMapper.GetDependencies(node);
+
+      var nodesToRemove = new List<INode>();
+
+      foreach (var n in nodes)
+      {
+        bool isDependant = _nodeDependencyMapper.IsDependant(node, n);
+        bool isDirectDependant = directDependencies.Contains(n);
+
+        if (isDependant && !isDirectDependant)
         {
           nodesToRemove.Add(n);
         }
@@ -104,7 +157,14 @@ namespace DependencyMapper
         else
         {
           _nodeDependencyMapper.AddDependency(node, _node);
-        }        
+        }
+
+        if (!_nodesRemoved.Contains(node))
+        {
+          _nodesAdded.Add(node);
+        }
+        
+        _nodesRemoved.Remove(node);
       }
       else
       {
@@ -115,8 +175,18 @@ namespace DependencyMapper
         else
         {
           _nodeDependencyMapper.RemoveDependency(node, _node);
-        }          
+        }
+
+        if (!_nodesAdded.Contains(node))
+        {
+          _nodesRemoved.Add(node);
+        }
+        
+        _nodesAdded.Remove(node);
       }
+
+      UpdateChanges();
+      PopulateNodesList();
     }
 
     private void closeBtn_Click(object sender, EventArgs e)
@@ -136,19 +206,19 @@ namespace DependencyMapper
 
     private void PopulateNodesList()
     {
-      nodesList.Items.Clear();
-
       var nodes = new List<INode>(_nodeDependencyMapper.Nodes);
 
       nodes.Remove(_node);
-
+            
       if (_mode == RelationshipMode.Dependencies)
       {
         RemoveNodesDependingOnSpecifiedNode(_node, nodes);
+        RemoveNodesSpecifiedNodeIndirectlyDependsOn(_node, nodes);
       }
       else
       {
-        RemoveNodesDependentOnSpecifiedNode(_node, nodes);
+        RemoveNodesSpecifiedNodeDependsOn(_node, nodes);
+        RemoveNodesIndirectlyDependingOnSpecifiedNode(_node, nodes);
       }
 
       foreach (var n in nodes)
@@ -172,10 +242,28 @@ namespace DependencyMapper
           isBoxChecked = _nodeDependencyMapper.IsDependant(n, _node);
         }
 
-        var wrappedNode = new NodeWrapper(n);
+        bool alreadyExists =
+          nodesList
+            .Items
+            .Cast<NodeWrapper>()
+            .ToList()
+            .Any(i => i.Node.Id == n.Id);
 
-        nodesList.Items.Add(wrappedNode, isBoxChecked);
+        if (!alreadyExists)
+        {
+          var wrappedNode = new NodeWrapper(n);
+
+          nodesList.Items.Add(wrappedNode, isBoxChecked);
+        }
       }
+
+      nodesList
+        .Items
+        .Cast<NodeWrapper>()
+        .ToList()
+        .Where(i => !nodes.Any(n => n.Id == i.Node.Id))
+        .ToList()
+        .ForEach(n => nodesList.Items.Remove(n));
     }
 
     private void clearFilterBtn_Click(object sender, EventArgs e)
@@ -185,6 +273,16 @@ namespace DependencyMapper
       PopulateNodesList();
 
       filterTxtBox.Focus();
+    }
+
+    private void UpdateChanges()
+    {
+      var changes = new StringBuilder();
+
+      _nodesAdded.ForEach(n => changes.Append($"+{n.Name}{Environment.NewLine}"));
+      _nodesRemoved.ForEach(n => changes.Append($"-{n.Name}{Environment.NewLine}"));
+
+      changesLbl.Text = changes.ToString();
     }
   }
 }
