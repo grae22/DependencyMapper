@@ -81,7 +81,7 @@
             this.toolStripMenuItem3});
       this.menuStrip.Location = new System.Drawing.Point(0, 0);
       this.menuStrip.Name = "menuStrip";
-      this.menuStrip.Size = new System.Drawing.Size(1157, 24);
+      this.menuStrip.Size = new System.Drawing.Size(984, 24);
       this.menuStrip.TabIndex = 0;
       this.menuStrip.Text = "menuStrip";
       // 
@@ -118,6 +118,7 @@
       // splitContainer1
       // 
       this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
       this.splitContainer1.Location = new System.Drawing.Point(0, 24);
       this.splitContainer1.Name = "splitContainer1";
       // 
@@ -128,17 +129,17 @@
       // splitContainer1.Panel2
       // 
       this.splitContainer1.Panel2.Controls.Add(this.panel1);
-      this.splitContainer1.Size = new System.Drawing.Size(1157, 713);
-      this.splitContainer1.SplitterDistance = 385;
+      this.splitContainer1.Size = new System.Drawing.Size(984, 713);
+      this.splitContainer1.SplitterDistance = 500;
       this.splitContainer1.TabIndex = 1;
       this.splitContainer1.Text = "splitContainer1";
       // 
       // tableLayoutPanel1
       // 
+      this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.tableLayoutPanel1.ColumnCount = 2;
-      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.95582F));
-      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.04418F));
-      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.5F));
+      this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.5F));
       this.tableLayoutPanel1.Controls.Add(this.mainLeftLayout, 1, 0);
       this.tableLayoutPanel1.Controls.Add(this.nodesGroup, 0, 0);
       this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -146,7 +147,7 @@
       this.tableLayoutPanel1.Name = "tableLayoutPanel1";
       this.tableLayoutPanel1.RowCount = 1;
       this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-      this.tableLayoutPanel1.Size = new System.Drawing.Size(385, 713);
+      this.tableLayoutPanel1.Size = new System.Drawing.Size(500, 713);
       this.tableLayoutPanel1.TabIndex = 1;
       // 
       // mainLeftLayout
@@ -156,12 +157,12 @@
       this.mainLeftLayout.Controls.Add(this.nodeRelationshipsGroup, 0, 1);
       this.mainLeftLayout.Controls.Add(this.nodeBox, 0, 0);
       this.mainLeftLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.mainLeftLayout.Location = new System.Drawing.Point(152, 3);
+      this.mainLeftLayout.Location = new System.Drawing.Point(200, 3);
       this.mainLeftLayout.Name = "mainLeftLayout";
       this.mainLeftLayout.RowCount = 2;
       this.mainLeftLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
       this.mainLeftLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-      this.mainLeftLayout.Size = new System.Drawing.Size(230, 707);
+      this.mainLeftLayout.Size = new System.Drawing.Size(297, 707);
       this.mainLeftLayout.TabIndex = 0;
       // 
       // nodeRelationshipsGroup
@@ -173,7 +174,7 @@
       this.nodeRelationshipsGroup.Dock = System.Windows.Forms.DockStyle.Fill;
       this.nodeRelationshipsGroup.Location = new System.Drawing.Point(3, 188);
       this.nodeRelationshipsGroup.Name = "nodeRelationshipsGroup";
-      this.nodeRelationshipsGroup.Size = new System.Drawing.Size(224, 516);
+      this.nodeRelationshipsGroup.Size = new System.Drawing.Size(291, 516);
       this.nodeRelationshipsGroup.TabIndex = 4;
       this.nodeRelationshipsGroup.TabStop = false;
       this.nodeRelationshipsGroup.Text = "Node Relationships";
@@ -187,14 +188,14 @@
       this.nodeRelationshipsList.ItemHeight = 15;
       this.nodeRelationshipsList.Location = new System.Drawing.Point(19, 59);
       this.nodeRelationshipsList.Name = "nodeRelationshipsList";
-      this.nodeRelationshipsList.Size = new System.Drawing.Size(189, 439);
+      this.nodeRelationshipsList.Size = new System.Drawing.Size(256, 439);
       this.nodeRelationshipsList.Sorted = true;
       this.nodeRelationshipsList.TabIndex = 10;
       // 
       // nodeRelationshipsEdit
       // 
       this.nodeRelationshipsEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.nodeRelationshipsEdit.Location = new System.Drawing.Point(156, 32);
+      this.nodeRelationshipsEdit.Location = new System.Drawing.Point(223, 32);
       this.nodeRelationshipsEdit.Name = "nodeRelationshipsEdit";
       this.nodeRelationshipsEdit.Size = new System.Drawing.Size(52, 23);
       this.nodeRelationshipsEdit.TabIndex = 9;
@@ -240,7 +241,7 @@
       this.nodeBox.Dock = System.Windows.Forms.DockStyle.Fill;
       this.nodeBox.Location = new System.Drawing.Point(3, 3);
       this.nodeBox.Name = "nodeBox";
-      this.nodeBox.Size = new System.Drawing.Size(224, 179);
+      this.nodeBox.Size = new System.Drawing.Size(291, 179);
       this.nodeBox.TabIndex = 0;
       this.nodeBox.TabStop = false;
       this.nodeBox.Text = "Node";
@@ -248,7 +249,7 @@
       // nodeDeleteBtn
       // 
       this.nodeDeleteBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.nodeDeleteBtn.Location = new System.Drawing.Point(52, 138);
+      this.nodeDeleteBtn.Location = new System.Drawing.Point(119, 138);
       this.nodeDeleteBtn.Name = "nodeDeleteBtn";
       this.nodeDeleteBtn.Size = new System.Drawing.Size(75, 23);
       this.nodeDeleteBtn.TabIndex = 6;
@@ -259,7 +260,7 @@
       // newNodeBtn
       // 
       this.newNodeBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.newNodeBtn.Location = new System.Drawing.Point(133, 22);
+      this.newNodeBtn.Location = new System.Drawing.Point(200, 22);
       this.newNodeBtn.Name = "newNodeBtn";
       this.newNodeBtn.Size = new System.Drawing.Size(75, 23);
       this.newNodeBtn.TabIndex = 1;
@@ -270,7 +271,7 @@
       // nodeSaveBtn
       // 
       this.nodeSaveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.nodeSaveBtn.Location = new System.Drawing.Point(133, 138);
+      this.nodeSaveBtn.Location = new System.Drawing.Point(200, 138);
       this.nodeSaveBtn.Name = "nodeSaveBtn";
       this.nodeSaveBtn.Size = new System.Drawing.Size(75, 23);
       this.nodeSaveBtn.TabIndex = 5;
@@ -285,7 +286,7 @@
       this.nodeCategoryDropdown.FormattingEnabled = true;
       this.nodeCategoryDropdown.Location = new System.Drawing.Point(98, 109);
       this.nodeCategoryDropdown.Name = "nodeCategoryDropdown";
-      this.nodeCategoryDropdown.Size = new System.Drawing.Size(110, 23);
+      this.nodeCategoryDropdown.Size = new System.Drawing.Size(177, 23);
       this.nodeCategoryDropdown.Sorted = true;
       this.nodeCategoryDropdown.TabIndex = 4;
       this.nodeCategoryDropdown.Enter += new System.EventHandler(this.nodeCategoryDropdown_Enter);
@@ -305,7 +306,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.nodeDescriptionTxtBox.Location = new System.Drawing.Point(98, 80);
       this.nodeDescriptionTxtBox.Name = "nodeDescriptionTxtBox";
-      this.nodeDescriptionTxtBox.Size = new System.Drawing.Size(110, 23);
+      this.nodeDescriptionTxtBox.Size = new System.Drawing.Size(177, 23);
       this.nodeDescriptionTxtBox.TabIndex = 3;
       // 
       // nodeDescriptionLabel
@@ -332,12 +333,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.nodeNameTxtBox.Location = new System.Drawing.Point(98, 51);
       this.nodeNameTxtBox.Name = "nodeNameTxtBox";
-      this.nodeNameTxtBox.Size = new System.Drawing.Size(110, 23);
+      this.nodeNameTxtBox.Size = new System.Drawing.Size(177, 23);
       this.nodeNameTxtBox.TabIndex = 2;
       this.nodeNameTxtBox.Enter += new System.EventHandler(this.nodeNameTxtBox_Enter);
       // 
       // nodesGroup
       // 
+      this.nodesGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
       this.nodesGroup.Controls.Add(this.nodesListShowSelectedNodeDependants);
       this.nodesGroup.Controls.Add(this.nodesListShowSelectedNodeDependencies);
       this.nodesGroup.Controls.Add(this.nodesListNameFilterClearBtn);
@@ -348,7 +350,7 @@
       this.nodesGroup.Location = new System.Drawing.Point(3, 3);
       this.nodesGroup.Name = "nodesGroup";
       this.nodesGroup.Padding = new System.Windows.Forms.Padding(15, 15, 15, 20);
-      this.nodesGroup.Size = new System.Drawing.Size(143, 707);
+      this.nodesGroup.Size = new System.Drawing.Size(191, 707);
       this.nodesGroup.TabIndex = 1;
       this.nodesGroup.TabStop = false;
       this.nodesGroup.Text = "Nodes";
@@ -359,7 +361,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.nodesListShowSelectedNodeDependants.Location = new System.Drawing.Point(15, 670);
       this.nodesListShowSelectedNodeDependants.Name = "nodesListShowSelectedNodeDependants";
-      this.nodesListShowSelectedNodeDependants.Size = new System.Drawing.Size(113, 23);
+      this.nodesListShowSelectedNodeDependants.Size = new System.Drawing.Size(161, 23);
       this.nodesListShowSelectedNodeDependants.TabIndex = 4;
       this.nodesListShowSelectedNodeDependants.Text = "Dependants";
       this.nodesListShowSelectedNodeDependants.UseVisualStyleBackColor = true;
@@ -371,7 +373,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.nodesListShowSelectedNodeDependencies.Location = new System.Drawing.Point(15, 641);
       this.nodesListShowSelectedNodeDependencies.Name = "nodesListShowSelectedNodeDependencies";
-      this.nodesListShowSelectedNodeDependencies.Size = new System.Drawing.Size(113, 23);
+      this.nodesListShowSelectedNodeDependencies.Size = new System.Drawing.Size(161, 23);
       this.nodesListShowSelectedNodeDependencies.TabIndex = 4;
       this.nodesListShowSelectedNodeDependencies.Text = "Dependencies";
       this.nodesListShowSelectedNodeDependencies.UseVisualStyleBackColor = true;
@@ -380,7 +382,7 @@
       // nodesListNameFilterClearBtn
       // 
       this.nodesListNameFilterClearBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.nodesListNameFilterClearBtn.Location = new System.Drawing.Point(102, 57);
+      this.nodesListNameFilterClearBtn.Location = new System.Drawing.Point(150, 57);
       this.nodesListNameFilterClearBtn.Name = "nodesListNameFilterClearBtn";
       this.nodesListNameFilterClearBtn.Size = new System.Drawing.Size(26, 23);
       this.nodesListNameFilterClearBtn.TabIndex = 3;
@@ -394,7 +396,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
       this.nodesListNameFilter.Location = new System.Drawing.Point(15, 57);
       this.nodesListNameFilter.Name = "nodesListNameFilter";
-      this.nodesListNameFilter.Size = new System.Drawing.Size(81, 23);
+      this.nodesListNameFilter.Size = new System.Drawing.Size(129, 23);
       this.nodesListNameFilter.TabIndex = 2;
       this.nodesListNameFilter.Enter += new System.EventHandler(this.nodesListNameFilter_Enter);
       this.nodesListNameFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.nodesListNameFilter_KeyPress);
@@ -407,7 +409,7 @@
       this.nodesListCategoryFilter.FormattingEnabled = true;
       this.nodesListCategoryFilter.Location = new System.Drawing.Point(15, 26);
       this.nodesListCategoryFilter.Name = "nodesListCategoryFilter";
-      this.nodesListCategoryFilter.Size = new System.Drawing.Size(113, 23);
+      this.nodesListCategoryFilter.Size = new System.Drawing.Size(161, 23);
       this.nodesListCategoryFilter.TabIndex = 1;
       this.nodesListCategoryFilter.SelectedIndexChanged += new System.EventHandler(this.nodesListCategoryFilter_SelectedIndexChanged);
       // 
@@ -420,7 +422,7 @@
       this.nodesList.ItemHeight = 15;
       this.nodesList.Location = new System.Drawing.Point(15, 91);
       this.nodesList.Name = "nodesList";
-      this.nodesList.Size = new System.Drawing.Size(113, 544);
+      this.nodesList.Size = new System.Drawing.Size(161, 544);
       this.nodesList.Sorted = true;
       this.nodesList.TabIndex = 0;
       this.nodesList.SelectedIndexChanged += new System.EventHandler(this.nodesList_SelectedIndexChanged);
@@ -434,15 +436,17 @@
       this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.panel1.Location = new System.Drawing.Point(0, 0);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(768, 713);
+      this.panel1.Size = new System.Drawing.Size(480, 713);
       this.panel1.TabIndex = 0;
       // 
       // diagramPicBox
       // 
+      this.diagramPicBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+      this.diagramPicBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
       this.diagramPicBox.ImageLocation = "";
       this.diagramPicBox.Location = new System.Drawing.Point(0, 0);
       this.diagramPicBox.Name = "diagramPicBox";
-      this.diagramPicBox.Size = new System.Drawing.Size(768, 713);
+      this.diagramPicBox.Size = new System.Drawing.Size(400, 400);
       this.diagramPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
       this.diagramPicBox.TabIndex = 0;
       this.diagramPicBox.TabStop = false;
@@ -451,7 +455,7 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1157, 737);
+      this.ClientSize = new System.Drawing.Size(984, 737);
       this.Controls.Add(this.splitContainer1);
       this.Controls.Add(this.menuStrip);
       this.Name = "MainForm";
