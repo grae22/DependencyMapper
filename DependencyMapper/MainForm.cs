@@ -450,6 +450,8 @@ namespace DependencyMapper
       in INode showNodeDependencies = null,
       in INode showNodeDependants = null)
     {
+      INode previouslySelectedNode = (nodesList.SelectedItem as NodeWrapper)?.Node;
+
       nodesList.SelectedIndexChanged -= nodesList_SelectedIndexChanged;
 
       nodesList.Items.Clear();
@@ -475,16 +477,30 @@ namespace DependencyMapper
         nodes = new List<INode>(_dependencyMapper.Nodes);
       }
 
-      nodes.ForEach(n =>
+      NodeWrapper nodeToSelect = null;
+
+      foreach (var n in nodes)
       {
         if (IsCategoryVisibleInNodesList(n.Category) &&
           n.Name.Contains(nodesListNameFilter.Text, StringComparison.OrdinalIgnoreCase))
         {
-          nodesList.Items.Add(new NodeWrapper(n));
+          var wrappedNode = new NodeWrapper(n);
+
+          nodesList.Items.Add(wrappedNode);
+
+          if (n.Id == previouslySelectedNode?.Id)
+          {
+            nodeToSelect = wrappedNode;
+          }
         }
-      });
+      }
 
       nodesList.SelectedIndexChanged += nodesList_SelectedIndexChanged;
+
+      if (nodeToSelect != null)
+      {
+        nodesList.SelectedItem = nodeToSelect;
+      }
 
       UpdateDiagram();
     }
