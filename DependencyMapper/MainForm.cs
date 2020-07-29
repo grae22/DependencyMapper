@@ -410,8 +410,10 @@ namespace DependencyMapper
 
     private void PopulateNodeListCategoryFilters()
     {
+      string selectedFilter = nodesListCategoryFilter.Text;
+
       bool selectAll = nodesListCategoryFilter.SelectedIndex == -1 ||
-        nodesListCategoryFilter.Text.Equals(NodesListCategoryFilterAll, StringComparison.OrdinalIgnoreCase);
+        selectedFilter.Equals(NodesListCategoryFilterAll, StringComparison.OrdinalIgnoreCase);
 
       nodesListCategoryFilter.SelectedIndexChanged -= nodesListCategoryFilter_SelectedIndexChanged;
 
@@ -431,6 +433,10 @@ namespace DependencyMapper
       if (selectAll)
       {
         nodesListCategoryFilter.Text = NodesListCategoryFilterAll;
+      }
+      else
+      {
+        nodesListCategoryFilter.Text = selectedFilter;
       }
 
       nodesListCategoryFilter.SelectedIndexChanged += nodesListCategoryFilter_SelectedIndexChanged;
@@ -477,9 +483,11 @@ namespace DependencyMapper
         nodes = new List<INode>(_dependencyMapper.Nodes);
       }
 
+      IEnumerable<INode> distinctNodes = nodes.Distinct();
+
       NodeWrapper nodeToSelect = null;
 
-      foreach (var n in nodes)
+      foreach (var n in distinctNodes)
       {
         if (IsCategoryVisibleInNodesList(n.Category) &&
           n.Name.Contains(nodesListNameFilter.Text, StringComparison.OrdinalIgnoreCase))
@@ -527,16 +535,6 @@ namespace DependencyMapper
 
     private void nodesListShowSelectedNodeDependencies_Click(object sender, EventArgs e)
     {
-      if (nodesListShowSelectedNodeDependencies.Text == "RESET")
-      {
-        nodesListShowSelectedNodeDependencies.Text = "Dependencies";
-        nodesListShowSelectedNodeDependants.Text = "Dependants";
-
-        PopulateNodesList();
-
-        return;
-      }
-
       INode node = GetSelectedNode();
 
       if (node == null)
@@ -553,23 +551,10 @@ namespace DependencyMapper
       nodesListNameFilter.Text = string.Empty;
 
       PopulateNodesList(node);
-
-      nodesListShowSelectedNodeDependencies.Text = "RESET";
-      nodesListShowSelectedNodeDependants.Text = "RESET";
     }
 
     private void nodesListShowSelectedNodeDependants_Click(object sender, EventArgs e)
     {
-      if (nodesListShowSelectedNodeDependants.Text == "RESET")
-      {
-        nodesListShowSelectedNodeDependants.Text = "Dependants";
-        nodesListShowSelectedNodeDependencies.Text = "Dependencies";
-
-        PopulateNodesList();
-
-        return;
-      }
-
       INode node = GetSelectedNode();
 
       if (node == null)
@@ -586,9 +571,6 @@ namespace DependencyMapper
       nodesListNameFilter.Text = string.Empty;
 
       PopulateNodesList(null, node);
-
-      nodesListShowSelectedNodeDependants.Text = "RESET";
-      nodesListShowSelectedNodeDependencies.Text = "RESET";
     }
 
     private void nodeDeleteBtn_Click(object sender, EventArgs e)

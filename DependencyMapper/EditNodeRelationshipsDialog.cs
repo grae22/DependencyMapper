@@ -201,6 +201,8 @@ namespace DependencyMapper
         return;
       }
 
+      nodesList.Items.Clear();
+
       PopulateNodesList();
     }
 
@@ -223,6 +225,11 @@ namespace DependencyMapper
 
       foreach (var n in nodes)
       {
+        if (n == _node)
+        {
+          continue;
+        }
+
         if (filterTxtBox.Text.Any() &&
           !n.Name.Contains(
             filterTxtBox.Text,
