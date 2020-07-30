@@ -219,38 +219,38 @@ namespace DependencyMapper.GraphViz
         buffer = buffer.Replace( "<INSERT_LINKS_HERE>", linksText );
 
         // Create a tmp filename for the graphviz file.
-        string tmpPath =
-          Path.GetDirectoryName(
-            System.Reflection.Assembly.GetExecutingAssembly().Location ) + '\\' + c_tmpFolder + '\\';
+        //string tmpPath =
+        //  Path.GetDirectoryName(
+        //    System.Reflection.Assembly.GetExecutingAssembly().Location ) + '\\' + c_tmpFolder + '\\';
 
-        string tmpFilename = tmpPath + (filename ?? DateTime.Now.ToString( "yyyyMMddhhmmss" ));
+        //string tmpFilename = tmpPath + (filename ?? DateTime.Now.ToString( "yyyyMMddhhmmss" ));
 
-        if( Directory.Exists( tmpPath ) == false )
-        {
-          Directory.CreateDirectory( tmpPath );
-        }
+        //if( Directory.Exists( tmpPath ) == false )
+        //{
+        //  Directory.CreateDirectory( tmpPath );
+        //}
 
-        // Delete any old images.
-        string[] oldImages = Directory.GetFiles( tmpPath );
+        //// Delete any old images.
+        //string[] oldImages = Directory.GetFiles( tmpPath );
 
-        foreach( string oldImagePath in oldImages )
-        {
-          try
-          {
-            File.Delete( oldImagePath );
-          }
-          catch( Exception )
-          {
-            Debug.WriteLine($"Failed to delete \"{oldImagePath}\"");
-          }
-        }
+        //foreach( string oldImagePath in oldImages )
+        //{
+        //  try
+        //  {
+        //    File.Delete( oldImagePath );
+        //  }
+        //  catch( Exception )
+        //  {
+        //    Debug.WriteLine($"Failed to delete \"{oldImagePath}\"");
+        //  }
+        //}
 
         // Write the gv file
-        string gvFilename = tmpFilename + ".gv";
+        string gvFilename = filename + ".gv";
         File.WriteAllText( gvFilename, buffer );
 
         // Get graphvis to generate the diagram.
-        string diagramFilename = tmpFilename + ".png";
+        string diagramFilename = filename + ".png";
 
         ProcessStartInfo info =
           new ProcessStartInfo(

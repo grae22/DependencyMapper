@@ -33,6 +33,7 @@
       this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+      this.exportCategoryDependencyDiagramsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.splitContainer1 = new System.Windows.Forms.SplitContainer();
       this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
       this.mainLeftLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -42,6 +43,7 @@
       this.nodeDependantsBtn = new System.Windows.Forms.RadioButton();
       this.nodeDependenciesBtn = new System.Windows.Forms.RadioButton();
       this.nodeBox = new System.Windows.Forms.GroupBox();
+      this.copyNodeBtn = new System.Windows.Forms.Button();
       this.nodeDeleteBtn = new System.Windows.Forms.Button();
       this.newNodeBtn = new System.Windows.Forms.Button();
       this.nodeSaveBtn = new System.Windows.Forms.Button();
@@ -61,7 +63,7 @@
       this.nodesList = new System.Windows.Forms.ListBox();
       this.panel1 = new System.Windows.Forms.Panel();
       this.diagramPicBox = new System.Windows.Forms.PictureBox();
-      this.copyNodeBtn = new System.Windows.Forms.Button();
+      this.exportAllDiagramMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
       this.splitContainer1.Panel1.SuspendLayout();
@@ -105,7 +107,9 @@
       // toolStripMenuItem3
       // 
       this.toolStripMenuItem3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem4});
+            this.toolStripMenuItem4,
+            this.exportAllDiagramMenuItem,
+            this.exportCategoryDependencyDiagramsMenuItem});
       this.toolStripMenuItem3.Name = "toolStripMenuItem3";
       this.toolStripMenuItem3.Size = new System.Drawing.Size(64, 20);
       this.toolStripMenuItem3.Text = "&Diagram";
@@ -113,9 +117,16 @@
       // toolStripMenuItem4
       // 
       this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-      this.toolStripMenuItem4.Size = new System.Drawing.Size(121, 22);
+      this.toolStripMenuItem4.Size = new System.Drawing.Size(357, 22);
       this.toolStripMenuItem4.Text = "&Generate";
       this.toolStripMenuItem4.Click += new System.EventHandler(this.OnDiagramGenerate);
+      // 
+      // exportCategoryDependencyDiagramsMenuItem
+      // 
+      this.exportCategoryDependencyDiagramsMenuItem.Name = "exportCategoryDependencyDiagramsMenuItem";
+      this.exportCategoryDependencyDiagramsMenuItem.Size = new System.Drawing.Size(357, 22);
+      this.exportCategoryDependencyDiagramsMenuItem.Text = "Export depedency diagram for all in selected category";
+      this.exportCategoryDependencyDiagramsMenuItem.Click += new System.EventHandler(this.exportCategoryDependencyDiagramsMenuItem_Click);
       // 
       // splitContainer1
       // 
@@ -249,6 +260,16 @@
       this.nodeBox.TabIndex = 0;
       this.nodeBox.TabStop = false;
       this.nodeBox.Text = "Node";
+      // 
+      // copyNodeBtn
+      // 
+      this.copyNodeBtn.Location = new System.Drawing.Point(98, 22);
+      this.copyNodeBtn.Name = "copyNodeBtn";
+      this.copyNodeBtn.Size = new System.Drawing.Size(75, 23);
+      this.copyNodeBtn.TabIndex = 7;
+      this.copyNodeBtn.Text = "Copy";
+      this.copyNodeBtn.UseVisualStyleBackColor = true;
+      this.copyNodeBtn.Click += new System.EventHandler(this.copyNodeBtn_Click);
       // 
       // nodeDeleteBtn
       // 
@@ -468,15 +489,12 @@
       this.diagramPicBox.TabIndex = 0;
       this.diagramPicBox.TabStop = false;
       // 
-      // copyNodeBtn
+      // exportAllDiagramMenuItem
       // 
-      this.copyNodeBtn.Location = new System.Drawing.Point(98, 22);
-      this.copyNodeBtn.Name = "copyNodeBtn";
-      this.copyNodeBtn.Size = new System.Drawing.Size(75, 23);
-      this.copyNodeBtn.TabIndex = 7;
-      this.copyNodeBtn.Text = "Copy";
-      this.copyNodeBtn.UseVisualStyleBackColor = true;
-      this.copyNodeBtn.Click += new System.EventHandler(this.copyNodeBtn_Click);
+      this.exportAllDiagramMenuItem.Name = "exportAllDiagramMenuItem";
+      this.exportAllDiagramMenuItem.Size = new System.Drawing.Size(357, 22);
+      this.exportAllDiagramMenuItem.Text = "Export All";
+      this.exportAllDiagramMenuItem.Click += new System.EventHandler(this.exportAllDiagramMenuItem_Click);
       // 
       // MainForm
       // 
@@ -548,6 +566,8 @@
     private System.Windows.Forms.Button nodesListShowSelectedNodeDependants;
     private System.Windows.Forms.Button nodesListCategoryApplyAll;
     private System.Windows.Forms.Button copyNodeBtn;
+    private System.Windows.Forms.ToolStripMenuItem exportCategoryDependencyDiagramsMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem exportAllDiagramMenuItem;
   }
 }
 

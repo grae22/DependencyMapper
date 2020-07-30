@@ -331,47 +331,27 @@ namespace DependencyMapper
         return;
       }
 
-      var graphViz = new GraphVizDiagram(
-        graphVizBinPath,
-        @"GraphViz\DiagramTemplate.gv");
+      string path =
+        Path.GetDirectoryName(
+          Assembly.GetExecutingAssembly().Location) + @"\tmp\";
 
-      var nodes = new List<INode>();
-
-      foreach (var n in nodesList.Items)
+      if (Directory.Exists(path) == false)
       {
-        nodes.Add(((NodeWrapper)n).Node);
+        Directory.CreateDirectory(path);
       }
 
-      nodes.ForEach(n =>
-      {
-        Color colour;
-        GraphVizDiagram.Node.NodeShape shape;
-
-        SelectColourAndShapeByCategory(
-          n.Category,
-          out colour,
-          out shape);
-
-        graphViz.AddNode(
-          n.Id,
-          n.Name,
-          n.Description?.Length > 0 ? $"({n.Description})" : string.Empty,
-          50,
-          colour,
-          shape);
-
-        _dependencyMapper
-          .GetDependencies(n)
-          .ToList()
-          .ForEach(d => graphViz.AddLinkToNode(n.Id, d.Id));
-      });
-
-      graphViz.CreateDiagram("diagram");
+      CreateDiagram(
+        nodesList
+          .Items
+          .Cast<NodeWrapper>()
+          .Select(n => n.Node),
+        graphVizBinPath,
+        $"{path}diagram");
 
       Image img;
 
       using (Bitmap bmp = new Bitmap(
-        $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\GraphVisTmp\diagram.png"))
+        $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\tmp\diagram.png"))
       {
         img = new Bitmap(bmp);
       }
@@ -703,6 +683,217 @@ namespace DependencyMapper
       nodesList.SelectedItem = uiNode;
 
       nodeNameTxtBox.Focus();
+    }
+
+    private void exportCategoryDependencyDiagramsMenuItem_Click(object sender, EventArgs e)
+    {
+      string graphVizBinPath = Environment.GetEnvironmentVariable(GraphVizPathEnvironmentVariableName);
+
+      if (graphVizBinPath == null ||
+        !Directory.Exists(graphVizBinPath))
+      {
+        MessageBox.Show(
+          $"Either the environment variable \"{GraphVizPathEnvironmentVariableName}\" is missing or the path does not exist.",
+          "GraphViz Error",
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Error);
+        return;
+      }
+
+      bool abort =
+        MessageBox.Show(
+          "This will export a dependency diagram for *each* node within the selected category, continue?",
+          "Sure?",
+          MessageBoxButtons.YesNo,
+          MessageBoxIcon.Question) == DialogResult.No;
+
+      if (abort)
+      {
+        return;
+      }
+
+      string selectedPath;
+
+      using (var dlg = new FolderBrowserDialog())
+      {
+        dlg.ShowNewFolderButton = true;
+        dlg.ShowDialog();
+
+        selectedPath = dlg.SelectedPath;
+      }
+
+      if (string.IsNullOrEmpty(selectedPath))
+      {
+        return;
+      }
+
+      IEnumerable<INode> nodes =
+      _dependencyMapper
+        .Nodes
+        .Where(n => n.Category.Equals(nodesListCategoryFilter.Text, StringComparison.OrdinalIgnoreCase));
+
+      if (!nodes.Any())
+      {
+        MessageBox.Show(
+          "No nodes found for selected category.",
+          "Diagram Export",
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Exclamation);
+        return;
+      }
+
+      IEnumerable<INode> keyNodes = CreateKeyDiagramNodes();
+
+      CreateDiagram(
+        keyNodes,
+        graphVizBinPath,
+        $@"{selectedPath}\Key");
+
+      selectedPath = $@"{selectedPath}\{nodesListCategoryFilter.Text}";
+
+      Directory.CreateDirectory(selectedPath);
+
+      foreach (var n in nodes)
+      {
+        IList<INode> dependencies = _dependencyMapper.GetDependencies(n, true).ToList();
+
+        dependencies.Add(n);
+
+        CreateDiagram(
+          dependencies,
+          graphVizBinPath,
+          $@"{selectedPath}\{n.Name}");
+      }
+
+      MessageBox.Show(
+        "Export complete.",
+        "Finished",
+        MessageBoxButtons.OK,
+        MessageBoxIcon.Information);
+    }
+
+    private IEnumerable<INode> CreateKeyDiagramNodes()
+    {
+      var nodes = new List<INode>();
+      var id = 1;
+
+      foreach (var category in nodesListCategoryFilter.Items.Cast<string>())
+      {
+        if (category == NodesListCategoryFilterAll ||
+          category == NodesListCategoryFilterCustom ||
+          category == "Default")
+        {
+          continue;
+        }
+
+        nodes.Add(
+          new Node(
+            id++,
+            category,
+            string.Empty,
+            category));
+      }
+
+      return nodes;
+    }
+
+    private void CreateDiagram(
+      in IEnumerable<INode> nodes,
+      in string graphVizBinPath,
+      in string outputFilename)
+    {
+      var graphViz = new GraphVizDiagram(
+        graphVizBinPath,
+        @"GraphViz\DiagramTemplate.gv");
+
+      nodes
+        .ToList()
+        .ForEach(n =>
+      {
+        Color colour;
+        GraphVizDiagram.Node.NodeShape shape;
+
+        SelectColourAndShapeByCategory(
+          n.Category,
+          out colour,
+          out shape);
+
+        graphViz.AddNode(
+          n.Id,
+          n.Name,
+          n.Description?.Length > 0 ? $"({n.Description})" : string.Empty,
+          50,
+          colour,
+          shape);
+
+        _dependencyMapper
+          .GetDependencies(n)
+          .ToList()
+          .ForEach(d => graphViz.AddLinkToNode(n.Id, d.Id));
+      });
+
+      graphViz.CreateDiagram(outputFilename);
+    }
+
+    private void exportAllDiagramMenuItem_Click(object sender, EventArgs e)
+    {
+      string graphVizBinPath = Environment.GetEnvironmentVariable(GraphVizPathEnvironmentVariableName);
+
+      if (graphVizBinPath == null ||
+        !Directory.Exists(graphVizBinPath))
+      {
+        MessageBox.Show(
+          $"Either the environment variable \"{GraphVizPathEnvironmentVariableName}\" is missing or the path does not exist.",
+          "GraphViz Error",
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Error);
+        return;
+      }
+
+      string selectedPath;
+
+      using (var dlg = new FolderBrowserDialog())
+      {
+        dlg.ShowNewFolderButton = true;
+        dlg.ShowDialog();
+
+        selectedPath = dlg.SelectedPath;
+      }
+
+      if (string.IsNullOrEmpty(selectedPath))
+      {
+        return;
+      }
+
+      IEnumerable<INode> nodes = _dependencyMapper.Nodes;
+
+      if (!nodes.Any())
+      {
+        MessageBox.Show(
+          "No nodes found.",
+          "Diagram Export",
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Exclamation);
+        return;
+      }
+
+      IEnumerable<INode> keyNodes = CreateKeyDiagramNodes();
+
+      CreateDiagram(
+        keyNodes,
+        graphVizBinPath,
+        $@"{selectedPath}\Key");
+
+      CreateDiagram(
+        nodes,
+        graphVizBinPath,
+        $@"{selectedPath}\All");
+
+      MessageBox.Show(
+        "Export complete.",
+        "Finished",
+        MessageBoxButtons.OK,
+        MessageBoxIcon.Information);
     }
   }
 }
