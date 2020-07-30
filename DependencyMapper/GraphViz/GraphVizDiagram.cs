@@ -250,12 +250,12 @@ namespace DependencyMapper.GraphViz
         File.WriteAllText( gvFilename, buffer );
 
         // Get graphvis to generate the diagram.
-        string diagramFilename = tmpFilename + ".bmp";
+        string diagramFilename = tmpFilename + ".png";
 
         ProcessStartInfo info =
           new ProcessStartInfo(
             _absGraphVizBinPath + "dot.exe",
-            "\"" + gvFilename + "\" -o \"" + diagramFilename + "\" -T bmp" );
+            "\"" + gvFilename + "\" -o \"" + diagramFilename + "\" -T png" );
 
         info.CreateNoWindow = true;
         info.UseShellExecute = false;

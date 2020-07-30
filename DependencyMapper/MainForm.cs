@@ -31,6 +31,7 @@ namespace DependencyMapper
       { "subsystem", Color.FromArgb(255, 180, 180) },
       { "sound", Color.FromArgb(255, 255, 180) },
       { "gfx", Color.FromArgb(180, 255, 255) },
+      { "external", Color.FromArgb(150, 150, 150) },
       { UnknownCategory, Color.FromArgb(255, 100, 255) }
     };
 
@@ -41,6 +42,7 @@ namespace DependencyMapper
       { "subsystem", GraphVizDiagram.Node.NodeShape.BOX },
       { "sound", GraphVizDiagram.Node.NodeShape.OCTAGON },
       { "gfx", GraphVizDiagram.Node.NodeShape.OCTAGON },
+      { "external", GraphVizDiagram.Node.NodeShape.CIRCLE },
       { UnknownCategory, GraphVizDiagram.Node.NodeShape.BOX }
     };
 
@@ -369,7 +371,7 @@ namespace DependencyMapper
       Image img;
 
       using (Bitmap bmp = new Bitmap(
-        $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\GraphVisTmp\diagram.bmp"))
+        $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\GraphVisTmp\diagram.png"))
       {
         img = new Bitmap(bmp);
       }
@@ -634,6 +636,18 @@ namespace DependencyMapper
       {
         return;
       }
+
+      if (!IsCategoryVisibleInNodesList(node.Category))
+      {
+        nodesListCategoryFilter.SelectedItem = NodesListCategoryFilterAll;
+      }
+
+      if (!node.Name.Contains(nodesListNameFilter.Text, StringComparison.OrdinalIgnoreCase))
+      {
+        nodesListNameFilter.Text = string.Empty;
+      }
+
+      PopulateNodesList();
 
       nodesList.SelectedItem =
         nodesList
