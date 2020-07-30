@@ -61,6 +61,7 @@
       this.nodesList = new System.Windows.Forms.ListBox();
       this.panel1 = new System.Windows.Forms.Panel();
       this.diagramPicBox = new System.Windows.Forms.PictureBox();
+      this.copyNodeBtn = new System.Windows.Forms.Button();
       this.menuStrip.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
       this.splitContainer1.Panel1.SuspendLayout();
@@ -231,6 +232,7 @@
       // 
       // nodeBox
       // 
+      this.nodeBox.Controls.Add(this.copyNodeBtn);
       this.nodeBox.Controls.Add(this.nodeDeleteBtn);
       this.nodeBox.Controls.Add(this.newNodeBtn);
       this.nodeBox.Controls.Add(this.nodeSaveBtn);
@@ -251,7 +253,7 @@
       // nodeDeleteBtn
       // 
       this.nodeDeleteBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.nodeDeleteBtn.Location = new System.Drawing.Point(119, 138);
+      this.nodeDeleteBtn.Location = new System.Drawing.Point(98, 138);
       this.nodeDeleteBtn.Name = "nodeDeleteBtn";
       this.nodeDeleteBtn.Size = new System.Drawing.Size(75, 23);
       this.nodeDeleteBtn.TabIndex = 6;
@@ -466,6 +468,16 @@
       this.diagramPicBox.TabIndex = 0;
       this.diagramPicBox.TabStop = false;
       // 
+      // copyNodeBtn
+      // 
+      this.copyNodeBtn.Location = new System.Drawing.Point(98, 22);
+      this.copyNodeBtn.Name = "copyNodeBtn";
+      this.copyNodeBtn.Size = new System.Drawing.Size(75, 23);
+      this.copyNodeBtn.TabIndex = 7;
+      this.copyNodeBtn.Text = "Copy";
+      this.copyNodeBtn.UseVisualStyleBackColor = true;
+      this.copyNodeBtn.Click += new System.EventHandler(this.copyNodeBtn_Click);
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -535,6 +547,7 @@
     private System.Windows.Forms.Button nodesListShowSelectedNodeDependencies;
     private System.Windows.Forms.Button nodesListShowSelectedNodeDependants;
     private System.Windows.Forms.Button nodesListCategoryApplyAll;
+    private System.Windows.Forms.Button copyNodeBtn;
   }
 }
 

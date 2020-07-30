@@ -58,7 +58,8 @@ namespace DependencyMapper
       newNode.UpdateName("New Node");
       newNode.UpdateCategory(DefaultCategory);
 
-      if (nodesListCategoryFilter.Text != NodesListCategoryFilterAll)
+      if (nodesListCategoryFilter.Text != NodesListCategoryFilterAll &&
+          nodesListCategoryFilter.Text != NodesListCategoryFilterCustom)
       {
         newNode.UpdateCategory(nodesListCategoryFilter.Text);
       }
@@ -639,6 +640,55 @@ namespace DependencyMapper
           .Items
           .Cast<NodeWrapper>()
           .FirstOrDefault(i => i.Node.Id == node.Id);
+    }
+
+    private void copyNodeBtn_Click(object sender, EventArgs e)
+    {
+      INode selectedNode = GetSelectedNode();
+
+      if (selectedNode == null)
+      {
+        MessageBox.Show(
+          "Select a node first.",
+          "Copy Node",
+          MessageBoxButtons.OK,
+          MessageBoxIcon.Information);
+        return;
+      }
+
+      bool includeRelationships =
+        MessageBox.Show(
+          "Copy node's relationships?",
+          "Copy Node",
+          MessageBoxButtons.YesNo,
+          MessageBoxIcon.Question) == DialogResult.Yes;
+
+      INode newNode = _dependencyMapper.CreateNode();
+
+      newNode.UpdateName($"{selectedNode.Name} Copy");
+      newNode.UpdateDescription(selectedNode.Description);
+      newNode.UpdateCategory(selectedNode.Category);
+
+      if (includeRelationships)
+      {
+        foreach (var d in _dependencyMapper.GetDependencies(selectedNode))
+        {
+          _dependencyMapper.AddDependency(newNode, d);
+        }
+
+        foreach (var d in _dependencyMapper.GetDependants(selectedNode))
+        {
+          _dependencyMapper.AddDependency(d, newNode);
+        }
+      }
+
+      var uiNode = new NodeWrapper(newNode);
+
+      nodesList.Items.Add(uiNode);
+
+      nodesList.SelectedItem = uiNode;
+
+      nodeNameTxtBox.Focus();
     }
   }
 }
