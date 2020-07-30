@@ -352,7 +352,7 @@ namespace DependencyMapper
         graphViz.AddNode(
           n.Id,
           n.Name,
-          n.Description,
+          n.Description?.Length > 0 ? $"({n.Description})" : string.Empty,
           50,
           colour,
           shape);
@@ -623,6 +623,22 @@ namespace DependencyMapper
     private void nodeListCategoryFilterApplyAll_OnClick(object sender, EventArgs args)
     {
       nodesListCategoryFilter.Text = NodesListCategoryFilterAll;
+    }
+
+    private void nodeRelationshipsList_DoubleClick(object sender, EventArgs e)
+    {
+      INode node = ((NodeWrapper)nodeRelationshipsList.SelectedItem)?.Node;
+
+      if (node == null)
+      {
+        return;
+      }
+
+      nodesList.SelectedItem =
+        nodesList
+          .Items
+          .Cast<NodeWrapper>()
+          .FirstOrDefault(i => i.Node.Id == node.Id);
     }
   }
 }
