@@ -172,6 +172,7 @@ namespace DependencyMapper.Mapping
         model,
         new JsonSerializerSettings()
         {
+          Formatting = Formatting.Indented,
           TypeNameHandling = TypeNameHandling.Auto
         });
     }
