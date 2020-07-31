@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
 using System.Drawing;
+using System.Text;
 
 namespace DependencyMapper.GraphViz
 {
@@ -189,61 +190,45 @@ namespace DependencyMapper.GraphViz
         string buffer = File.ReadAllText( _absTemplateFilename );
 
         // Compile the nodes & links text;
-        string nodesText = "";
-        string linksText = "";
+        var nodesText = new StringBuilder();
+        var linksText = new StringBuilder();
 
         foreach( Node n in Nodes.Values )
         {
           string thisNodeIdAsString = n.Id.ToString();
 
-          nodesText +=
-            "  " +
-            thisNodeIdAsString +
-            " [" +
-            "label=<" + n.Text.Replace( '"', '\'' ) + "> " +
-            "shape=" + n.ShapeAsString() + " " +
-            "fillcolor=\"#" + n.Colour.R.ToString( "X2" ) + n.Colour.G.ToString( "X2" ) + n.Colour.B.ToString( "X2" ) + "\"" +
-            "];"
-            + Environment.NewLine;
+          nodesText.Append("  ");
+          nodesText.Append(thisNodeIdAsString);
+          nodesText.Append(" [");
+          nodesText.Append("label=<");
+          nodesText.Append(n.Text.Replace('"', '\''));
+          nodesText.Append("> ");
+          nodesText.Append("shape=");
+          nodesText.Append(n.ShapeAsString());
+          nodesText.Append(" ");
+          nodesText.Append("fillcolor=\"#");
+          nodesText.Append(n.Colour.R.ToString("X2"));
+          nodesText.Append(n.Colour.G.ToString( "X2" ));
+          nodesText.Append(n.Colour.B.ToString( "X2" ));
+          nodesText.Append("\"");
+          nodesText.Append("];");
+          nodesText.Append(Environment.NewLine);
 
           foreach( int id in n.Links )
           {
             if( Nodes.ContainsKey( id ) )
             {
-              linksText += "  " + thisNodeIdAsString + " -> " + id.ToString() + Environment.NewLine;
+              linksText.Append("  ");
+              linksText.Append(thisNodeIdAsString);
+              linksText.Append(" -> ");
+              linksText.Append(id.ToString());
+              linksText.Append(Environment.NewLine);
             }
           }
         }
 
-        buffer = buffer.Replace( "<INSERT_NODES_HERE>", nodesText );
-        buffer = buffer.Replace( "<INSERT_LINKS_HERE>", linksText );
-
-        // Create a tmp filename for the graphviz file.
-        //string tmpPath =
-        //  Path.GetDirectoryName(
-        //    System.Reflection.Assembly.GetExecutingAssembly().Location ) + '\\' + c_tmpFolder + '\\';
-
-        //string tmpFilename = tmpPath + (filename ?? DateTime.Now.ToString( "yyyyMMddhhmmss" ));
-
-        //if( Directory.Exists( tmpPath ) == false )
-        //{
-        //  Directory.CreateDirectory( tmpPath );
-        //}
-
-        //// Delete any old images.
-        //string[] oldImages = Directory.GetFiles( tmpPath );
-
-        //foreach( string oldImagePath in oldImages )
-        //{
-        //  try
-        //  {
-        //    File.Delete( oldImagePath );
-        //  }
-        //  catch( Exception )
-        //  {
-        //    Debug.WriteLine($"Failed to delete \"{oldImagePath}\"");
-        //  }
-        //}
+        buffer = buffer.Replace( "<INSERT_NODES_HERE>", nodesText.ToString() );
+        buffer = buffer.Replace( "<INSERT_LINKS_HERE>", linksText.ToString() );
 
         // Write the gv file
         string gvFilename = filename + ".gv";
