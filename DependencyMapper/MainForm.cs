@@ -333,7 +333,7 @@ namespace DependencyMapper
 
       string path =
         Path.GetDirectoryName(
-          Assembly.GetExecutingAssembly().Location) + @"\tmp\";
+          Assembly.GetExecutingAssembly().Location) + @"\tmp";
 
       if (Directory.Exists(path) == false)
       {
@@ -346,7 +346,8 @@ namespace DependencyMapper
           .Cast<NodeWrapper>()
           .Select(n => n.Node),
         graphVizBinPath,
-        $"{path}diagram");
+        path,
+        "diagram");
 
       Image img;
 
@@ -747,7 +748,8 @@ namespace DependencyMapper
       CreateDiagram(
         keyNodes,
         graphVizBinPath,
-        $@"{selectedPath}\Key");
+        selectedPath,
+        "Key");
 
       selectedPath = $@"{selectedPath}\{nodesListCategoryFilter.Text}";
 
@@ -762,7 +764,8 @@ namespace DependencyMapper
         CreateDiagram(
           dependencies,
           graphVizBinPath,
-          $@"{selectedPath}\{n.Name}");
+          selectedPath,
+          n.Name);
       }
 
       MessageBox.Show(
@@ -800,8 +803,11 @@ namespace DependencyMapper
     private void CreateDiagram(
       in IEnumerable<INode> nodes,
       in string graphVizBinPath,
-      in string outputFilename)
+      in string outputPath,
+      in string filename)
     {
+      string validFilename = ReplaceInvalidFilenameChars(filename);
+
       var graphViz = new GraphVizDiagram(
         graphVizBinPath,
         @"GraphViz\DiagramTemplate.gv");
@@ -833,7 +839,7 @@ namespace DependencyMapper
           .ForEach(d => graphViz.AddLinkToNode(n.Id, d.Id));
       });
 
-      graphViz.CreateDiagram(outputFilename);
+      graphViz.CreateDiagram($@"{outputPath}\{validFilename}");
     }
 
     private void exportAllDiagramMenuItem_Click(object sender, EventArgs e)
@@ -866,7 +872,7 @@ namespace DependencyMapper
         return;
       }
 
-      IEnumerable<INode> nodes = _dependencyMapper.Nodes;
+      IEnumerable<INode> nodes = _dependencyMapper.Nodes.OrderBy(n => n.Name);
 
       if (!nodes.Any())
       {
@@ -883,18 +889,32 @@ namespace DependencyMapper
       CreateDiagram(
         keyNodes,
         graphVizBinPath,
-        $@"{selectedPath}\Key");
+        selectedPath,
+        "Key");
 
       CreateDiagram(
         nodes,
         graphVizBinPath,
-        $@"{selectedPath}\All");
+        selectedPath,
+        "All");
 
       MessageBox.Show(
         "Export complete.",
         "Finished",
         MessageBoxButtons.OK,
         MessageBoxIcon.Information);
+    }
+
+    private string ReplaceInvalidFilenameChars(in string filename)
+    {
+      string validFilename = filename;
+
+      Path
+        .GetInvalidFileNameChars()
+        .ToList()
+        .ForEach(c => validFilename = validFilename.Replace(c, '_'));
+
+      return validFilename;
     }
   }
 }
