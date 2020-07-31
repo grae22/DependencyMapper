@@ -40,9 +40,9 @@ namespace DependencyMapper
       { "input", GraphVizDiagram.Node.NodeShape.BOX },
       { "output", GraphVizDiagram.Node.NodeShape.BOX },
       { "subsystem", GraphVizDiagram.Node.NodeShape.BOX },
-      { "sound", GraphVizDiagram.Node.NodeShape.OCTAGON },
-      { "gfx", GraphVizDiagram.Node.NodeShape.OCTAGON },
-      { "external", GraphVizDiagram.Node.NodeShape.CIRCLE },
+      { "sound", GraphVizDiagram.Node.NodeShape.BOX },
+      { "gfx", GraphVizDiagram.Node.NodeShape.BOX },
+      { "external", GraphVizDiagram.Node.NodeShape.ELLIPSE },
       { UnknownCategory, GraphVizDiagram.Node.NodeShape.BOX }
     };
 
@@ -820,6 +820,7 @@ namespace DependencyMapper
 
         graphViz.AddNode(
           n.Id,
+          n.Category,
           n.Name,
           n.Description?.Length > 0 ? $"({n.Description})" : string.Empty,
           50,

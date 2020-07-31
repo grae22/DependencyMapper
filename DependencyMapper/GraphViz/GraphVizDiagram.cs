@@ -4,6 +4,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 using System.Text;
+using System.Linq;
 
 namespace DependencyMapper.GraphViz
 {
@@ -23,6 +24,10 @@ namespace DependencyMapper.GraphViz
         PENTAGON,
         HEXAGON,
         OCTAGON,
+        HOUSE,
+        INV_HOUSE,
+        TRAPEZIUM,
+        INV_TRAPEZIUM
       }
 
       public int Id { get; private set; }
@@ -80,6 +85,18 @@ namespace DependencyMapper.GraphViz
           case NodeShape.OCTAGON:
             return "polygon sides=8";
 
+          case NodeShape.HOUSE:
+            return "house";
+
+          case NodeShape.INV_HOUSE:
+            return "invhouse";
+
+          case NodeShape.TRAPEZIUM:
+            return "trapezium";
+
+          case NodeShape.INV_TRAPEZIUM:
+            return "invtrapezium";
+
           default:
             return "box";
         }
@@ -89,6 +106,7 @@ namespace DependencyMapper.GraphViz
     //=========================================================================
 
     private const string c_tmpFolder = "GraphVisTmp";
+    private const string c_newLine = @"\n";
 
     public Dictionary<int, Node> Nodes { get; private set; }
 
@@ -143,6 +161,7 @@ namespace DependencyMapper.GraphViz
     // maxCharsBeforeWrappingText: Set to 0 for no wrapping.
 
     public Node AddNode( int id,
+                         string header,
                          string title,
                          string text,
                          int maxCharsBeforeWrappingText,
@@ -154,11 +173,17 @@ namespace DependencyMapper.GraphViz
         title = WrapText( title, maxCharsBeforeWrappingText, "CENTER" );
         text = WrapText( text, maxCharsBeforeWrappingText, "LEFT" );
 
-        // Create new node.
+        string nodeText = $"<SUP>{header}</SUP><BR ALIGN='CENTER' /><B>{title}</B>";
+
+        if (text.Any())
+        {
+          nodeText = $"{nodeText}<BR ALIGN='CENTER' />{text}";
+        }
+
         Node newNode =
           new Node(
             id,
-            title + "<BR ALIGN='CENTER' />" + text,
+            $"{nodeText}<br/>&nbsp;",
             colour,
             shape );
 
