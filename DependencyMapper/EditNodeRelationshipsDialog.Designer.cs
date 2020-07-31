@@ -36,6 +36,7 @@
       this.changesLbl = new System.Windows.Forms.Label();
       this.label1 = new System.Windows.Forms.Label();
       this.showIndirectRelationsChkBox = new System.Windows.Forms.CheckBox();
+      this.showCircularChkBox = new System.Windows.Forms.CheckBox();
       this.groupBox1.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -67,7 +68,7 @@
       // filterTxtBox
       // 
       this.filterTxtBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.filterTxtBox.Location = new System.Drawing.Point(365, 50);
+      this.filterTxtBox.Location = new System.Drawing.Point(365, 12);
       this.filterTxtBox.Name = "filterTxtBox";
       this.filterTxtBox.Size = new System.Drawing.Size(109, 23);
       this.filterTxtBox.TabIndex = 1;
@@ -76,7 +77,7 @@
       // clearFilterBtn
       // 
       this.clearFilterBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.clearFilterBtn.Location = new System.Drawing.Point(480, 50);
+      this.clearFilterBtn.Location = new System.Drawing.Point(480, 12);
       this.clearFilterBtn.Name = "clearFilterBtn";
       this.clearFilterBtn.Size = new System.Drawing.Size(26, 23);
       this.clearFilterBtn.TabIndex = 2;
@@ -89,9 +90,9 @@
       this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
       this.groupBox1.Controls.Add(this.changesLbl);
-      this.groupBox1.Location = new System.Drawing.Point(326, 92);
+      this.groupBox1.Location = new System.Drawing.Point(326, 155);
       this.groupBox1.Name = "groupBox1";
-      this.groupBox1.Size = new System.Drawing.Size(180, 371);
+      this.groupBox1.Size = new System.Drawing.Size(180, 308);
       this.groupBox1.TabIndex = 5;
       this.groupBox1.TabStop = false;
       this.groupBox1.Text = "Changes";
@@ -101,14 +102,14 @@
       this.changesLbl.Dock = System.Windows.Forms.DockStyle.Fill;
       this.changesLbl.Location = new System.Drawing.Point(3, 19);
       this.changesLbl.Name = "changesLbl";
-      this.changesLbl.Size = new System.Drawing.Size(174, 349);
+      this.changesLbl.Size = new System.Drawing.Size(174, 286);
       this.changesLbl.TabIndex = 0;
       // 
       // label1
       // 
       this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(326, 54);
+      this.label1.Location = new System.Drawing.Point(326, 16);
       this.label1.Name = "label1";
       this.label1.Size = new System.Drawing.Size(33, 15);
       this.label1.TabIndex = 6;
@@ -118,7 +119,7 @@
       // 
       this.showIndirectRelationsChkBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.showIndirectRelationsChkBox.AutoSize = true;
-      this.showIndirectRelationsChkBox.Location = new System.Drawing.Point(365, 25);
+      this.showIndirectRelationsChkBox.Location = new System.Drawing.Point(326, 59);
       this.showIndirectRelationsChkBox.Name = "showIndirectRelationsChkBox";
       this.showIndirectRelationsChkBox.Size = new System.Drawing.Size(146, 19);
       this.showIndirectRelationsChkBox.TabIndex = 7;
@@ -126,12 +127,24 @@
       this.showIndirectRelationsChkBox.UseVisualStyleBackColor = true;
       this.showIndirectRelationsChkBox.CheckedChanged += new System.EventHandler(this.showIndirectRelationsChkBox_CheckedChanged);
       // 
+      // showCircularChkBox
+      // 
+      this.showCircularChkBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.showCircularChkBox.Location = new System.Drawing.Point(326, 84);
+      this.showCircularChkBox.Name = "showCircularChkBox";
+      this.showCircularChkBox.Size = new System.Drawing.Size(180, 65);
+      this.showCircularChkBox.TabIndex = 8;
+      this.showCircularChkBox.Text = "<<potential circular refs - set by code>>";
+      this.showCircularChkBox.UseVisualStyleBackColor = true;
+      this.showCircularChkBox.CheckedChanged += new System.EventHandler(this.showCircularChkBox_CheckedChanged);
+      // 
       // EditNodeRelationshipsDialog
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(518, 515);
       this.ControlBox = false;
+      this.Controls.Add(this.showCircularChkBox);
       this.Controls.Add(this.showIndirectRelationsChkBox);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.groupBox1);
@@ -160,5 +173,6 @@
     private System.Windows.Forms.Label changesLbl;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.CheckBox showIndirectRelationsChkBox;
+    private System.Windows.Forms.CheckBox showCircularChkBox;
   }
 }

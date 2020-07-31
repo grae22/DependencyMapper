@@ -36,6 +36,10 @@ namespace DependencyMapper
 
       Text = _mode == RelationshipMode.Dependencies ?
         "Select node's dependencies..." : "Select node's dependants";
+
+      showCircularChkBox.Text = _mode == RelationshipMode.Dependencies ?
+        "Show dependants - adding a dependency will cause a circular reference." :
+        "Show dependencies - adding a dependant will cause a circular reference.";
     }
 
     private void EditNodeRelationshipsDialog_Load(object sender, EventArgs e)
@@ -214,7 +218,10 @@ namespace DependencyMapper
             
       if (_mode == RelationshipMode.Dependencies)
       {
-        RemoveNodesDependingOnSpecifiedNode(_node, nodes);
+        if (!showCircularChkBox.Checked)
+        {
+          RemoveNodesDependingOnSpecifiedNode(_node, nodes);
+        }
 
         if (!showIndirectRelationsChkBox.Checked)
         {
@@ -223,7 +230,10 @@ namespace DependencyMapper
       }
       else
       {
-        RemoveNodesSpecifiedNodeDependsOn(_node, nodes);
+        if (!showCircularChkBox.Checked)
+        {
+          RemoveNodesSpecifiedNodeDependsOn(_node, nodes);
+        }
 
         if (!showIndirectRelationsChkBox.Checked)
         {
@@ -301,6 +311,11 @@ namespace DependencyMapper
     }
 
     private void showIndirectRelationsChkBox_CheckedChanged(object sender, EventArgs e)
+    {
+      PopulateNodesList();
+    }
+
+    private void showCircularChkBox_CheckedChanged(object sender, EventArgs e)
     {
       PopulateNodesList();
     }
