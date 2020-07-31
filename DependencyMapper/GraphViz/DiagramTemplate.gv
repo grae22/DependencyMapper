@@ -2,6 +2,7 @@ digraph DependencyDiagramTemplate
 {
   ranksep=0.5;
   ratio=auto;
+  bgcolor="#F0F0F0";
 
   node [style="filled" fontname="verdana" fontsize="10.0"];
 
