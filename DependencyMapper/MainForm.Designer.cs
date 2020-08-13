@@ -33,6 +33,7 @@
       this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+      this.exportAllDiagramMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.exportCategoryDependencyDiagramsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.splitContainer1 = new System.Windows.Forms.SplitContainer();
       this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -63,7 +64,6 @@
       this.nodesList = new System.Windows.Forms.ListBox();
       this.panel1 = new System.Windows.Forms.Panel();
       this.diagramPicBox = new System.Windows.Forms.PictureBox();
-      this.exportAllDiagramMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuStrip.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
       this.splitContainer1.Panel1.SuspendLayout();
@@ -120,6 +120,13 @@
       this.toolStripMenuItem4.Size = new System.Drawing.Size(357, 22);
       this.toolStripMenuItem4.Text = "&Generate";
       this.toolStripMenuItem4.Click += new System.EventHandler(this.OnDiagramGenerate);
+      // 
+      // exportAllDiagramMenuItem
+      // 
+      this.exportAllDiagramMenuItem.Name = "exportAllDiagramMenuItem";
+      this.exportAllDiagramMenuItem.Size = new System.Drawing.Size(357, 22);
+      this.exportAllDiagramMenuItem.Text = "Export All";
+      this.exportAllDiagramMenuItem.Click += new System.EventHandler(this.exportAllDiagramMenuItem_Click);
       // 
       // exportCategoryDependencyDiagramsMenuItem
       // 
@@ -460,6 +467,7 @@
       this.nodesList.ItemHeight = 15;
       this.nodesList.Location = new System.Drawing.Point(15, 91);
       this.nodesList.Name = "nodesList";
+      this.nodesList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
       this.nodesList.Size = new System.Drawing.Size(161, 544);
       this.nodesList.Sorted = true;
       this.nodesList.TabIndex = 4;
@@ -488,13 +496,6 @@
       this.diagramPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
       this.diagramPicBox.TabIndex = 0;
       this.diagramPicBox.TabStop = false;
-      // 
-      // exportAllDiagramMenuItem
-      // 
-      this.exportAllDiagramMenuItem.Name = "exportAllDiagramMenuItem";
-      this.exportAllDiagramMenuItem.Size = new System.Drawing.Size(357, 22);
-      this.exportAllDiagramMenuItem.Text = "Export All";
-      this.exportAllDiagramMenuItem.Click += new System.EventHandler(this.exportAllDiagramMenuItem_Click);
       // 
       // MainForm
       // 

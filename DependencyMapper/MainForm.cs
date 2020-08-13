@@ -77,10 +77,14 @@ namespace DependencyMapper
 
     private void nodesList_SelectedIndexChanged(object sender, EventArgs e)
     {
-      INode node = GetSelectedNode();
+      INode node = GetSingleSelectedNode();
 
       if (node == null)
       {
+        nodeNameTxtBox.Text = string.Empty;
+        nodeDescriptionTxtBox.Text = string.Empty;
+        nodeCategoryDropdown.Text = string.Empty;
+        nodeRelationshipsList.Items.Clear();
         return;
       }
 
@@ -93,7 +97,7 @@ namespace DependencyMapper
 
     private void nodeSaveBtn_Click(object sender, EventArgs e)
     {
-      INode node = GetSelectedNode();
+      INode node = GetSingleSelectedNode();
 
       if (node == null)
       {
@@ -147,8 +151,13 @@ namespace DependencyMapper
       nodesList.Sorted = true;
     }
 
-    private INode GetSelectedNode()
+    private INode GetSingleSelectedNode()
     {
+      if (nodesList.SelectedItems.Count > 1)
+      {
+        return null;
+      }
+
       var uiNode = nodesList.SelectedItem as NodeWrapper;
 
       if (uiNode == null)
@@ -246,7 +255,7 @@ namespace DependencyMapper
 
     private void nodeRelationshipsEdit_Click(object sender, EventArgs e)
     {
-      INode node = GetSelectedNode();
+      INode node = GetSingleSelectedNode();
 
       if (node == null)
       {
@@ -278,7 +287,7 @@ namespace DependencyMapper
     {
       nodeRelationshipsList.Items.Clear();
 
-      INode node = GetSelectedNode();
+      INode node = GetSingleSelectedNode();
 
       if (node == null)
       {
@@ -447,34 +456,45 @@ namespace DependencyMapper
     }
 
     private void PopulateNodesList(
-      in INode showNodeDependencies = null,
-      in INode showNodeDependants = null)
+      in IEnumerable<INode> showNodeDependencies = null,
+      in IEnumerable<INode> showNodeDependants = null)
     {
-      INode previouslySelectedNode = (nodesList.SelectedItem as NodeWrapper)?.Node;
+      INode previouslySelectedNode = null;
+      
+      if (nodesList.SelectedItems.Count == 1)
+      {
+        previouslySelectedNode = (nodesList.SelectedItem as NodeWrapper)?.Node;
+      }
 
       nodesList.SelectedIndexChanged -= nodesList_SelectedIndexChanged;
 
       nodesList.Items.Clear();
 
-      List<INode> nodes;
+      var nodes = new List<INode>();
 
       if (showNodeDependencies != null)
       {
-        nodes = new List<INode>(
-          _dependencyMapper.GetDependencies(showNodeDependencies, true));
+        foreach (var n in showNodeDependencies)
+        {
+          nodes.AddRange(
+            _dependencyMapper.GetDependencies(n, true));
 
-        nodes.Add(showNodeDependencies);
+          nodes.Add(n);
+        }
       }
       else if (showNodeDependants != null)
       {
-        nodes = new List<INode>(
-          _dependencyMapper.GetDependants(showNodeDependants, true));
+        foreach (var n in showNodeDependants)
+        {
+          nodes.AddRange(
+          _dependencyMapper.GetDependants(n, true));
 
-        nodes.Add(showNodeDependants);
+          nodes.Add(n);
+        }
       }
       else
       {
-        nodes = new List<INode>(_dependencyMapper.Nodes);
+        nodes.AddRange(_dependencyMapper.Nodes);
       }
 
       IEnumerable<INode> distinctNodes = nodes.Distinct();
@@ -529,9 +549,7 @@ namespace DependencyMapper
 
     private void nodesListShowSelectedNodeDependencies_Click(object sender, EventArgs e)
     {
-      INode node = GetSelectedNode();
-
-      if (node == null)
+      if (nodesList.SelectedItems.Count == 0)
       {
         MessageBox.Show(
           "Select a node first.",
@@ -541,17 +559,23 @@ namespace DependencyMapper
         return;
       }
 
+      nodesListCategoryFilter.SelectedIndexChanged -= nodesListCategoryFilter_SelectedIndexChanged;
       nodesListCategoryFilter.Text = NodesListCategoryFilterCustom;
+      nodesListCategoryFilter.SelectedIndexChanged += nodesListCategoryFilter_SelectedIndexChanged;
+
       nodesListNameFilter.Text = string.Empty;
 
-      PopulateNodesList(node);
+      PopulateNodesList(
+        nodesList
+          .SelectedItems
+          .Cast<NodeWrapper>()
+          .ToList()
+          .Select(s => s.Node));
     }
 
     private void nodesListShowSelectedNodeDependants_Click(object sender, EventArgs e)
     {
-      INode node = GetSelectedNode();
-
-      if (node == null)
+      if (nodesList.SelectedItems.Count == 0)
       {
         MessageBox.Show(
           "Select a node first.",
@@ -561,15 +585,24 @@ namespace DependencyMapper
         return;
       }
 
+      nodesListCategoryFilter.SelectedIndexChanged -= nodesListCategoryFilter_SelectedIndexChanged;
       nodesListCategoryFilter.Text = NodesListCategoryFilterCustom;
+      nodesListCategoryFilter.SelectedIndexChanged += nodesListCategoryFilter_SelectedIndexChanged;
+
       nodesListNameFilter.Text = string.Empty;
 
-      PopulateNodesList(null, node);
+      PopulateNodesList(
+        null,
+        nodesList
+          .SelectedItems
+          .Cast<NodeWrapper>()
+          .ToList()
+          .Select(s => s.Node));
     }
 
     private void nodeDeleteBtn_Click(object sender, EventArgs e)
     {
-      INode node = GetSelectedNode();
+      INode node = GetSingleSelectedNode();
 
       if (node == null)
       {
@@ -639,7 +672,7 @@ namespace DependencyMapper
 
     private void copyNodeBtn_Click(object sender, EventArgs e)
     {
-      INode selectedNode = GetSelectedNode();
+      INode selectedNode = GetSingleSelectedNode();
 
       if (selectedNode == null)
       {
