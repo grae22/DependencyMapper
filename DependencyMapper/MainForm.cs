@@ -29,6 +29,7 @@ namespace DependencyMapper
       { "input", Color.FromArgb(100, 180, 255) },
       { "output", Color.FromArgb(180, 255, 180) },
       { "subsystem", Color.FromArgb(255, 180, 180) },
+      { "state", Color.FromArgb(255, 220, 255) },
       { "sound", Color.FromArgb(255, 255, 180) },
       { "gfx", Color.FromArgb(180, 255, 255) },
       { "external", Color.FromArgb(150, 150, 150) },
@@ -40,6 +41,7 @@ namespace DependencyMapper
       { "input", GraphVizDiagram.Node.NodeShape.BOX },
       { "output", GraphVizDiagram.Node.NodeShape.BOX },
       { "subsystem", GraphVizDiagram.Node.NodeShape.BOX },
+      { "state", GraphVizDiagram.Node.NodeShape.BOX },
       { "sound", GraphVizDiagram.Node.NodeShape.BOX },
       { "gfx", GraphVizDiagram.Node.NodeShape.BOX },
       { "external", GraphVizDiagram.Node.NodeShape.ELLIPSE },
@@ -70,6 +72,7 @@ namespace DependencyMapper
 
       nodesList.Items.Add(uiNode);
 
+      nodesList.ClearSelected();
       nodesList.SelectedItem = uiNode;
       
       nodeNameTxtBox.Focus();
@@ -714,6 +717,7 @@ namespace DependencyMapper
 
       nodesList.Items.Add(uiNode);
 
+      nodesList.ClearSelected();
       nodesList.SelectedItem = uiNode;
 
       nodeNameTxtBox.Focus();
