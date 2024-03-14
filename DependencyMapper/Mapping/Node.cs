@@ -8,12 +8,14 @@ namespace DependencyMapper.Mapping
     public string Name { get; private set; }
     public string Description { get; private set; }
     public string Category { get; private set; }
+    public bool IsCompleted { get; private set; }
 
     public Node(
       in int id,
       in string name,
       in string description,
-      in string category)
+      in string category,
+      in bool isCompleted)
     {
       if (id < 1)
       {
@@ -24,6 +26,7 @@ namespace DependencyMapper.Mapping
       Name = name;
       Description = description;
       Category = category;
+      IsCompleted = isCompleted;
     }
 
     public void UpdateName(in string name)
@@ -39,6 +42,16 @@ namespace DependencyMapper.Mapping
     public void UpdateCategory(in string category)
     {
       Category = category;
+    }
+
+    public void MarkComplete()
+    {
+      IsCompleted = true;
+    }
+
+    public void MarkIncomplete()
+    {
+      IsCompleted = false;
     }
   }
 }

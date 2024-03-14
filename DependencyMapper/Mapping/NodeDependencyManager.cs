@@ -29,15 +29,15 @@ namespace DependencyMapper.Mapping
       AddNode(dependant);
       AddNode(dependency);
 
-      bool wouldCauseCyclicDependency = IsDependant(
-        dependency,
-        dependant,
-        true);
+      //bool wouldCauseCyclicDependency = IsDependant(
+      //  dependency,
+      //  dependant,
+      //  true);
 
-      if (wouldCauseCyclicDependency)
-      {
-        throw new NodeMappingException("Mapping would cause a cyclic dependency.");
-      }
+      //if (wouldCauseCyclicDependency)
+      //{
+      //  throw new NodeMappingException("Mapping would cause a cyclic dependency.");
+      //}
 
       if (!_dependenciesByDependantNodeId[dependant.Id].Contains(dependency.Id))
       {
@@ -75,7 +75,7 @@ namespace DependencyMapper.Mapping
       if (_dependantsByDependencyNodeId[dependency.Id].Contains(dependant.Id))
       {
         _dependantsByDependencyNodeId[dependency.Id].Remove(dependant.Id);
-      }      
+      }
     }
 
     public bool IsDependant(
@@ -213,8 +213,16 @@ namespace DependencyMapper.Mapping
     private void GetDependenciesRecursive(
       in INode dependant,
       in List<INode> dependencies,
-      in int recursionLevel)
+      in int recursionLevel,
+      List<INode> recursedNodes = null)
     {
+      if (recursedNodes == null)
+      {
+        recursedNodes = new List<INode>();
+      }
+
+      recursedNodes.Add(dependant);
+
       if (recursionLevel + 1 > MaxRecursiveNodeSearchLevel)
       {
         // TODO: This is currently a silent failure, could be improved.
@@ -229,18 +237,32 @@ namespace DependencyMapper.Mapping
 
         dependencies.Add(dependency);
 
+        if (recursedNodes.Contains(dependency))
+        {
+          continue;
+        }
+
         GetDependenciesRecursive(
           dependency,
           dependencies,
-          recursionLevel + 1);
+          recursionLevel + 1,
+          recursedNodes);
       }
     }
 
     private void GetDependantsRecursive(
       in INode dependency,
       in List<INode> dependants,
-      in int recursionLevel)
+      in int recursionLevel,
+      List<INode> recursedNodes = null)
     {
+      if (recursedNodes == null)
+      {
+        recursedNodes = new List<INode>();
+      }
+
+      recursedNodes.Add(dependency);
+
       if (recursionLevel + 1 > MaxRecursiveNodeSearchLevel)
       {
         // TODO: This is currently a silent failure, could be improved.
@@ -255,10 +277,16 @@ namespace DependencyMapper.Mapping
 
         dependants.Add(dependant);
 
+        if (recursedNodes.Contains(dependant))
+        {
+            continue;
+        }
+
         GetDependantsRecursive(
           dependant,
           dependants,
-          recursionLevel + 1);
+          recursionLevel + 1,
+          recursedNodes);
       }
     }
   }

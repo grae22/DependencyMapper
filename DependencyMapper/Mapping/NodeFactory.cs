@@ -24,12 +24,14 @@ namespace DependencyMapper.Mapping
       var nodeName = "";
       var nodeDescription = "";
       var nodeCategory = "Default";
+      var isComplete = false;
 
       return new Node(
         nodeId,
         nodeName,
         nodeDescription,
-        nodeCategory);
+        nodeCategory,
+        isComplete);
     }
 
     private int AllocateNodeId()

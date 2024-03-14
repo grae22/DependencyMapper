@@ -62,7 +62,7 @@ namespace DependencyMapper
       foreach (var n in nodesToRemove)
       {
         nodes.Remove(n);
-      }      
+      }
     }
 
     private void RemoveNodesIndirectlyDependingOnSpecifiedNode(
@@ -163,7 +163,7 @@ namespace DependencyMapper
         {
           _nodesAdded.Add(node);
         }
-        
+
         _nodesRemoved.Remove(node);
       }
       else
@@ -181,7 +181,7 @@ namespace DependencyMapper
         {
           _nodesRemoved.Add(node);
         }
-        
+
         _nodesAdded.Remove(node);
       }
 
@@ -211,19 +211,19 @@ namespace DependencyMapper
       var nodes = new List<INode>(_nodeDependencyMapper.Nodes);
 
       nodes.Remove(_node);
-            
+
       if (_mode == RelationshipMode.Dependencies)
       {
-        RemoveNodesDependingOnSpecifiedNode(_node, nodes);
+        //RemoveNodesDependingOnSpecifiedNode(_node, nodes);
 
         if (!showIndirectRelationsChkBox.Checked)
         {
           RemoveNodesSpecifiedNodeIndirectlyDependsOn(_node, nodes);
-        }        
+        }
       }
       else
       {
-        RemoveNodesSpecifiedNodeDependsOn(_node, nodes);
+        //RemoveNodesSpecifiedNodeDependsOn(_node, nodes);
 
         if (!showIndirectRelationsChkBox.Checked)
         {

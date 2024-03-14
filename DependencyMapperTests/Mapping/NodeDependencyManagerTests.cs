@@ -115,7 +115,7 @@ namespace DependencyMapperTests.Mapping
       Assert.That(dependencies.Contains(node1));
       Assert.That(dependencies.Contains(node1_1));
       Assert.That(dependencies.Contains(node1_2));
-      
+
       Assert.That(!dependencies.Contains(node0));
     }
 
@@ -182,7 +182,7 @@ namespace DependencyMapperTests.Mapping
     }
 
     [Test]
-    public void GivenNodeADependsOnNodeBWhichDependsOnNodeC_WhenNodeCIsMadeDependantOnNodeA_ThenExceptionRaised()
+    public void GivenNodeADependsOnNodeBWhichDependsOnNodeC_WhenNodeCIsMadeDependantOnNodeA_ThenExceptionIsNotRaised()
     {
       // Arrange.
       var testObject = new NodeDependencyManager();
@@ -206,10 +206,10 @@ namespace DependencyMapperTests.Mapping
       }
       catch (NodeMappingException)
       {
-        Assert.Pass();
+        Assert.Fail();
       }
 
-      Assert.Fail();
+      Assert.Pass();
     }
   }
 }
