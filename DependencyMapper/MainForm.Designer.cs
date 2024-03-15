@@ -506,6 +506,7 @@
       // 
       nodesList.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
       nodesList.FormattingEnabled = true;
+      nodesList.HorizontalScrollbar = true;
       nodesList.ItemHeight = 15;
       nodesList.Location = new System.Drawing.Point(15, 91);
       nodesList.Name = "nodesList";
